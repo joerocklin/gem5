@@ -1,0 +1,15 @@
+build
+parser.out
+parsetab.py
+cscope.files
+cscope.out
+*.pyc
+*~
+.*.swp
+m5out
+src/doxygen
+.hg
+.hgignore
+.hgtags
+*.o
+.AppleDouble
