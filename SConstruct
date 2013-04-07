@@ -1006,6 +1006,8 @@ Export('protocol_dirs')
 slicc_includes = []
 Export('slicc_includes')
 
+import re
+
 # Walk the tree and execute all SConsopts scripts that wil add to the
 # above variables
 if not GetOption('verbose'):
@@ -1015,6 +1017,9 @@ for bdir in [ base_dir ] + extras_dir_list:
         print "Error: directory '%s' does not exist" % bdir
         Exit(1)
     for root, dirs, files in os.walk(bdir):
+        if re.search(".AppleDouble", root):
+            continue
+            
         if 'SConsopts' in files:
             if GetOption('verbose'):
                 print "Reading", joinpath(root, 'SConsopts')
