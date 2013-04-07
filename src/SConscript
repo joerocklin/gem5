@@ -328,6 +328,10 @@ for root, dirs, files in os.walk(base_dir, topdown=True):
     if root == here:
         # we don't want to recurse back into this SConscript
         continue
+    
+    if root == ".AppleDouble":
+        print "Skipping", root
+        continue
 
     if 'SConscript' in files:
         build_dir = joinpath(env['BUILDDIR'], root[len(base_dir) + 1:])
