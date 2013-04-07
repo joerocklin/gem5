@@ -82,7 +82,7 @@ class Event;
  * SimObject.py). This has the effect of calling the method on the
  * parent node <i>before</i> its children.
  */
-class SimObject : public EventManager, public Serializable, public Drainable
+class SimObject : public EventManager, public gem5::Serializable, public Drainable
 {
   private:
     typedef std::vector<SimObject *> SimObjectList;

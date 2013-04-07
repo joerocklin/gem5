@@ -86,14 +86,14 @@ class RubyDirectedTester : public MemObject
     void print(std::ostream& out) const;
 
   protected:
-    class DirectedStartEvent : public Event
+    class DirectedStartEvent : public gem5::Event
     {
       private:
         RubyDirectedTester *tester;
 
       public:
         DirectedStartEvent(RubyDirectedTester *_tester)
-            : Event(CPU_Tick_Pri), tester(_tester)
+            : gem5::Event(CPU_Tick_Pri), tester(_tester)
         {}
         void process() { tester->wakeup(); }
         virtual const char *description() const { return "Directed tick"; }

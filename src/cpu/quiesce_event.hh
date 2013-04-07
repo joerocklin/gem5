@@ -36,7 +36,7 @@
 class ThreadContext;
 
 /** Event for timing out quiesce instruction */
-class EndQuiesceEvent : public Event
+class EndQuiesceEvent : public gem5::Event
 {
   public:
     /** A pointer to the thread context that is quiesced */

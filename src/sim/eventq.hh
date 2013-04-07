@@ -59,7 +59,8 @@ extern EventQueue mainEventQueue;
  *
  * Caution, the order of members is chosen to maximize data packing.
  */
-class Event : public Serializable
+namespace gem5 {
+class Event : public gem5::Serializable
 {
     friend class EventQueue;
 
@@ -301,42 +302,44 @@ class Event : public Serializable
 #endif
 };
 
+}
+
 #ifndef SWIG
 inline bool
-operator<(const Event &l, const Event &r)
+operator<(const gem5::Event &l, const gem5::Event &r)
 {
     return l.when() < r.when() ||
         (l.when() == r.when() && l.priority() < r.priority());
 }
 
 inline bool
-operator>(const Event &l, const Event &r)
+operator>(const gem5::Event &l, const gem5::Event &r)
 {
     return l.when() > r.when() ||
         (l.when() == r.when() && l.priority() > r.priority());
 }
 
 inline bool
-operator<=(const Event &l, const Event &r)
+operator<=(const gem5::Event &l, const gem5::Event &r)
 {
     return l.when() < r.when() ||
         (l.when() == r.when() && l.priority() <= r.priority());
 }
 inline bool
-operator>=(const Event &l, const Event &r)
+operator>=(const gem5::Event &l, const gem5::Event &r)
 {
     return l.when() > r.when() ||
         (l.when() == r.when() && l.priority() >= r.priority());
 }
 
 inline bool
-operator==(const Event &l, const Event &r)
+operator==(const gem5::Event &l, const gem5::Event &r)
 {
     return l.when() == r.when() && l.priority() == r.priority();
 }
 
 inline bool
-operator!=(const Event &l, const Event &r)
+operator!=(const gem5::Event &l, const gem5::Event &r)
 {
     return l.when() != r.when() || l.priority() != r.priority();
 }
@@ -345,15 +348,15 @@ operator!=(const Event &l, const Event &r)
 /*
  * Queue of events sorted in time order
  */
-class EventQueue : public Serializable
+class EventQueue : public gem5::Serializable
 {
   private:
     std::string objName;
-    Event *head;
+    gem5::Event *head;
     Tick _curTick;
 
-    void insert(Event *event);
-    void remove(Event *event);
+    void insert(gem5::Event *event);
+    void remove(gem5::Event *event);
 
     EventQueue(const EventQueue &);
     const EventQueue &operator=(const EventQueue &);
@@ -364,15 +367,15 @@ class EventQueue : public Serializable
     virtual const std::string name() const { return objName; }
 
     // schedule the given event on this queue
-    void schedule(Event *event, Tick when);
-    void deschedule(Event *event);
-    void reschedule(Event *event, Tick when, bool always = false);
+    void schedule(gem5::Event *event, Tick when);
+    void deschedule(gem5::Event *event);
+    void reschedule(gem5::Event *event, Tick when, bool always = false);
 
     Tick nextTick() const { return head->when(); }
     void setCurTick(Tick newVal) { _curTick = newVal; }
     Tick getCurTick() { return _curTick; }
 
-    Event *serviceOne();
+    gem5::Event *serviceOne();
 
     // process all events up to the given timestamp.  we inline a
     // quick test to see if there are any events to process; if so,
@@ -410,7 +413,7 @@ class EventQueue : public Serializable
      *  USING THIS FUNCTION CAN BE DANGEROUS TO THE HEALTH OF THE SIMULATOR.
      *  NOT RECOMMENDED FOR USE.
      */
-    Event* replaceHead(Event* s);
+    gem5::Event* replaceHead(gem5::Event* s);
 
 #ifndef SWIG
     virtual void serialize(std::ostream &os);
@@ -439,37 +442,37 @@ class EventManager
     }
 
     void
-    schedule(Event &event, Tick when)
+    schedule(gem5::Event &event, Tick when)
     {
         eventq->schedule(&event, when);
     }
 
     void
-    deschedule(Event &event)
+    deschedule(gem5::Event &event)
     {
         eventq->deschedule(&event);
     }
 
     void
-    reschedule(Event &event, Tick when, bool always = false)
+    reschedule(gem5::Event &event, Tick when, bool always = false)
     {
         eventq->reschedule(&event, when, always);
     }
 
     void
-    schedule(Event *event, Tick when)
+    schedule(gem5::Event *event, Tick when)
     {
         eventq->schedule(event, when);
     }
 
     void
-    deschedule(Event *event)
+    deschedule(gem5::Event *event)
     {
         eventq->deschedule(event);
     }
 
     void
-    reschedule(Event *event, Tick when, bool always = false)
+    reschedule(gem5::Event *event, Tick when, bool always = false)
     {
         eventq->reschedule(event, when, always);
     }
@@ -481,14 +484,14 @@ template <class T, void (T::* F)()>
 void
 DelayFunction(EventQueue *eventq, Tick when, T *object)
 {
-    class DelayEvent : public Event
+    class DelayEvent : public gem5::Event
     {
       private:
         T *object;
 
       public:
         DelayEvent(T *o)
-            : Event(Default_Pri, AutoDelete), object(o)
+            : gem5::Event(Default_Pri, AutoDelete), object(o)
         { }
         void process() { (object->*F)(); }
         const char *description() const { return "delay"; }
@@ -498,21 +501,21 @@ DelayFunction(EventQueue *eventq, Tick when, T *object)
 }
 
 template <class T, void (T::* F)()>
-class EventWrapper : public Event
+class EventWrapper : public gem5::Event
 {
   private:
     T *object;
 
   public:
     EventWrapper(T *obj, bool del = false, Priority p = Default_Pri)
-        : Event(p), object(obj)
+        : gem5::Event(p), object(obj)
     {
         if (del)
             setFlags(AutoDelete);
     }
 
     EventWrapper(T &obj, bool del = false, Priority p = Default_Pri)
-        : Event(p), object(&obj)
+        : gem5::Event(p), object(&obj)
     {
         if (del)
             setFlags(AutoDelete);

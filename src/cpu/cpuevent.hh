@@ -45,7 +45,7 @@ class ThreadContext;
  * events. This object MUST be dynamically allocated to avoid it being
  * deleted after a cpu switch happens.
  */
-class CpuEvent : public Event
+class CpuEvent : public gem5::Event
 {
   protected:
     /** type of global list of cpu events. */
@@ -60,7 +60,7 @@ class CpuEvent : public Event
 
   public:
     CpuEvent(ThreadContext *_tc, Priority p = Default_Pri)
-        : Event(p), tc(_tc)
+        : gem5::Event(p), tc(_tc)
     { cpuEventList.push_back(this); }
 
     /** delete the cpu event from the global list. */

@@ -64,7 +64,7 @@ class CheckerCPU;
 class ThreadContext;
 class System;
 
-class CPUProgressEvent : public Event
+class CPUProgressEvent : public gem5::Event
 {
   protected:
     Tick _interval;
@@ -209,7 +209,7 @@ class BaseCPU : public MemObject
         return FullSystem && interrupts->checkInterrupts(tc);
     }
 
-    class ProfileEvent : public Event
+    class ProfileEvent : public gem5::Event
     {
       private:
         BaseCPU *cpu;

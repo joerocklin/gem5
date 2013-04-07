@@ -46,7 +46,7 @@ class System;
 
 namespace Kernel {
 
-class Statistics : public Serializable
+class Statistics : public gem5::Serializable
 {
   protected:
     std::string myname;

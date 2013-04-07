@@ -73,7 +73,7 @@ class Uart8250 : public Uart
     uint8_t IER, DLAB, LCR, MCR;
     Tick lastTxInt;
 
-    class IntrEvent : public Event
+    class IntrEvent : public gem5::Event
     {
         protected:
             Uart8250 *uart;

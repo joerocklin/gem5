@@ -43,9 +43,11 @@
 #include "sim/serialize.hh"
 %}
 
-%nodefaultctor Serializable;
+%nodefaultctor gem5::Serializable;
 
+namespace gem5 {
 class Serializable
 {
     virtual const std::string name() const = 0;
 };
+}

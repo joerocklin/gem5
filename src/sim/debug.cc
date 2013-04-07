@@ -46,7 +46,7 @@ using namespace std;
 // Debug event: place a breakpoint on the process function and
 // schedule the event to break at a particular cycle
 //
-struct DebugBreakEvent : public Event
+struct DebugBreakEvent : public gem5::Event
 {
     DebugBreakEvent();
     void process();     // process event

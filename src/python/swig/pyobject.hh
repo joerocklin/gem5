@@ -50,7 +50,7 @@ int connectPorts(SimObject *o1, const std::string &name1, int i1,
 inline void
 serializeAll(const std::string &cpt_dir)
 {
-    Serializable::serializeAll(cpt_dir);
+    gem5::Serializable::serializeAll(cpt_dir);
 }
 
 inline Checkpoint *
@@ -62,5 +62,5 @@ getCheckpoint(const std::string &cpt_dir)
 inline void
 unserializeGlobals(Checkpoint *cp)
 {
-    Serializable::unserializeGlobals(cp);
+    gem5::Serializable::unserializeGlobals(cp);
 }

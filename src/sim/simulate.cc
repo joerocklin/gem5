@@ -58,7 +58,7 @@ simulate(Tick num_cycles)
     else // counter would roll over or be set to MaxTick anyhow
         num_cycles = MaxTick;
 
-    Event *limit_event =
+    gem5::Event *limit_event =
         new SimLoopExitEvent("simulate() limit reached", 0);
     mainEventQueue.schedule(limit_event, num_cycles);
 
@@ -69,7 +69,7 @@ simulate(Tick num_cycles)
         assert(curTick() <= mainEventQueue.nextTick() &&
                "event scheduled in the past");
 
-        Event *exit_event = mainEventQueue.serviceOne();
+        gem5::Event *exit_event = mainEventQueue.serviceOne();
         if (exit_event != NULL) {
             /*
              * if there are multiple exit events in the same cycle, drain the

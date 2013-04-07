@@ -79,7 +79,7 @@ vector<BaseCPU *> BaseCPU::cpuList;
 int maxThreadsPerCPU = 1;
 
 CPUProgressEvent::CPUProgressEvent(BaseCPU *_cpu, Tick ival)
-    : Event(Event::Progress_Event_Pri), _interval(ival), lastNumInst(0),
+    : gem5::Event(gem5::Event::Progress_Event_Pri), _interval(ival), lastNumInst(0),
       cpu(_cpu), _repeatEvent(true)
 {
     if (_interval)
@@ -148,7 +148,7 @@ BaseCPU::BaseCPU(Params *p, bool is_checker)
     if (p->max_insts_any_thread != 0) {
         const char *cause = "a thread reached the max instruction count";
         for (ThreadID tid = 0; tid < numThreads; ++tid) {
-            Event *event = new SimLoopExitEvent(cause, 0);
+            gem5::Event *event = new SimLoopExitEvent(cause, 0);
             comInstEventQueue[tid]->schedule(event, p->max_insts_any_thread);
         }
     }
@@ -162,7 +162,7 @@ BaseCPU::BaseCPU(Params *p, bool is_checker)
         int *counter = new int;
         *counter = numThreads;
         for (ThreadID tid = 0; tid < numThreads; ++tid) {
-            Event *event = new CountedExitEvent(cause, *counter);
+            gem5::Event *event = new CountedExitEvent(cause, *counter);
             comInstEventQueue[tid]->schedule(event, p->max_insts_all_threads);
         }
     }
@@ -178,7 +178,7 @@ BaseCPU::BaseCPU(Params *p, bool is_checker)
     if (p->max_loads_any_thread != 0) {
         const char *cause = "a thread reached the max load count";
         for (ThreadID tid = 0; tid < numThreads; ++tid) {
-            Event *event = new SimLoopExitEvent(cause, 0);
+            gem5::Event *event = new SimLoopExitEvent(cause, 0);
             comLoadEventQueue[tid]->schedule(event, p->max_loads_any_thread);
         }
     }
@@ -191,7 +191,7 @@ BaseCPU::BaseCPU(Params *p, bool is_checker)
         int *counter = new int;
         *counter = numThreads;
         for (ThreadID tid = 0; tid < numThreads; ++tid) {
-            Event *event = new CountedExitEvent(cause, *counter);
+            gem5::Event *event = new CountedExitEvent(cause, *counter);
             comLoadEventQueue[tid]->schedule(event, p->max_loads_all_threads);
         }
     }
@@ -210,7 +210,7 @@ BaseCPU::BaseCPU(Params *p, bool is_checker)
             functionTracingEnabled = true;
         } else {
             typedef EventWrapper<BaseCPU, &BaseCPU::enableFunctionTrace> wrap;
-            Event *event = new wrap(this, true);
+            gem5::Event *event = new wrap(this, true);
             schedule(event, p->function_trace_start);
         }
     }

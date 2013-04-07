@@ -211,7 +211,7 @@ class Profiler : public SimObject
     int m_num_of_sequencers;
 
   protected:
-    class ProfileEvent : public Event
+    class ProfileEvent : public gem5::Event
     {
         public:
             ProfileEvent(Profiler *_profiler)

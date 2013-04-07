@@ -34,13 +34,13 @@
 #include "sim/eventq.hh"
 #include "sim/sim_events.hh"
 
-class PythonEvent : public Event
+class PythonEvent : public gem5::Event
 {
   private:
     PyObject *object;
 
   public:
-    PythonEvent(PyObject *obj, Event::Priority priority);
+    PythonEvent(PyObject *obj, gem5::Event::Priority priority);
     ~PythonEvent();
 
     void incref() { Py_INCREF(object); }

@@ -161,7 +161,7 @@ class Sequencer : public RubyPort
     //! Histogram for number of outstanding requests per cycle.
     Histogram m_outstandReqHist;
 
-    class SequencerWakeupEvent : public Event
+    class SequencerWakeupEvent : public gem5::Event
     {
       private:
         Sequencer *m_sequencer_ptr;

@@ -36,7 +36,7 @@
 //
 // Event to terminate simulation at a particular cycle/instruction
 //
-class SimLoopExitEvent : public Event
+class SimLoopExitEvent : public gem5::Event
 {
   protected:
     // string explaining why we're terminating
@@ -55,7 +55,7 @@ class SimLoopExitEvent : public Event
     virtual const char *description() const;
 };
 
-class CountedDrainEvent : public Event
+class CountedDrainEvent : public gem5::Event
 {
   private:
     // Count of how many objects have not yet drained
@@ -76,7 +76,7 @@ class CountedDrainEvent : public Event
 // occurred using a shared counter: used to terminate when *all*
 // threads have reached a particular instruction count
 //
-class CountedExitEvent : public Event
+class CountedExitEvent : public gem5::Event
 {
   private:
     std::string cause;  // string explaining why we're terminating

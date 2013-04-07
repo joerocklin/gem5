@@ -168,7 +168,7 @@ class Pl111: public AmbaDmaDevice
      * This event calls pushes its this pointer onto the freeDoneEvent
      * vector and calls dmaDone() when triggered.
      */
-    class DmaDoneEvent : public Event
+    class DmaDoneEvent : public gem5::Event
     {
       private:
         Pl111 &obj;

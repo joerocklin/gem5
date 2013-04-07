@@ -321,7 +321,7 @@ class LSQUnit {
     };
 
     /** Writeback event, specifically for when stores forward data to loads. */
-    class WritebackEvent : public Event {
+    class WritebackEvent : public gem5::Event {
       public:
         /** Constructs a writeback event. */
         WritebackEvent(DynInstPtr &_inst, PacketPtr pkt, LSQUnit *lsq_ptr);

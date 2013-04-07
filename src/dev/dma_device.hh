@@ -87,7 +87,7 @@ class DmaPort : public MasterPort
     {
         /** Event to call on the device when this transaction (all packets)
          * complete. */
-        Event *completionEvent;
+        gem5::Event *completionEvent;
 
         /** Total number of bytes that this transaction involves. */
         const Addr totBytes;
@@ -98,7 +98,7 @@ class DmaPort : public MasterPort
         /** Amount to delay completion of dma by */
         const Tick delay;
 
-        DmaReqState(Event *ce, Addr tb, Tick _delay)
+        DmaReqState(gem5::Event *ce, Addr tb, Tick _delay)
             : completionEvent(ce), totBytes(tb), numBytes(0), delay(_delay)
         {}
     };
@@ -141,7 +141,7 @@ class DmaPort : public MasterPort
 
     DmaPort(MemObject *dev, System *s);
 
-    void dmaAction(Packet::Command cmd, Addr addr, int size, Event *event,
+    void dmaAction(Packet::Command cmd, Addr addr, int size, gem5::Event *event,
                    uint8_t *data, Tick delay, Request::Flags flag = 0);
 
     bool dmaPending() const { return pendingCount > 0; }
@@ -160,13 +160,13 @@ class DmaDevice : public PioDevice
     DmaDevice(const Params *p);
     virtual ~DmaDevice() { }
 
-    void dmaWrite(Addr addr, int size, Event *event, uint8_t *data,
+    void dmaWrite(Addr addr, int size, gem5::Event *event, uint8_t *data,
                   Tick delay = 0)
     {
         dmaPort.dmaAction(MemCmd::WriteReq, addr, size, event, data, delay);
     }
 
-    void dmaRead(Addr addr, int size, Event *event, uint8_t *data,
+    void dmaRead(Addr addr, int size, gem5::Event *event, uint8_t *data,
                  Tick delay = 0)
     {
         dmaPort.dmaAction(MemCmd::ReadReq, addr, size, event, data, delay);

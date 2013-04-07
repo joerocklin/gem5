@@ -53,7 +53,7 @@ class MemoryControl;
 class RubySystem : public ClockedObject
 {
   public:
-    class RubyEvent : public Event
+    class RubyEvent : public gem5::Event
     {
       public:
         RubyEvent(RubySystem* _ruby_system)

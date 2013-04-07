@@ -57,7 +57,7 @@ class AtomicSimpleCPU : public BaseSimpleCPU
 
   private:
 
-    struct TickEvent : public Event
+    struct TickEvent : public gem5::Event
     {
         AtomicSimpleCPU *cpu;
 

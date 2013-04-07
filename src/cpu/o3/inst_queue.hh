@@ -94,7 +94,7 @@ class InstructionQueue
     typedef typename std::list<DynInstPtr>::iterator ListIt;
 
     /** FU completion event class. */
-    class FUCompletion : public Event {
+    class FUCompletion : public gem5::Event {
       private:
         /** Executing instruction. */
         DynInstPtr inst;

@@ -233,7 +233,7 @@ class Pl390 : public BaseGic
 
     /** Event definition to post interrupt to CPU after a delay
     */
-    class PostIntEvent : public Event
+    class PostIntEvent : public gem5::Event
     {
       private:
         uint32_t cpu;

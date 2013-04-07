@@ -45,7 +45,7 @@
 
 %extend EventQueue {
     void
-    schedule(Event *event, Tick when)
+    schedule(gem5::Event *event, Tick when)
     {
         // Any python event that are scheduled must have their
         // internal object's refcount incremented so that the object
@@ -57,7 +57,7 @@
     }
     
     void
-    deschedule(Event *event)
+    deschedule(gem5::Event *event)
     {
         $self->deschedule(event); 
 
@@ -82,7 +82,7 @@
 %include "python/swig/pyevent.hh"
 
 // minimal definition of SimExitEvent interface to wrap
-class SimLoopExitEvent : public Event
+class SimLoopExitEvent : public gem5::Event
 {
   public:
     std::string getCause();

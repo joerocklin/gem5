@@ -230,7 +230,7 @@ RubySystem::serialize(std::ostream &os)
     // save the current tick value
     Tick curtick_original = curTick();
     // save the event queue head
-    Event* eventq_head = eventq->replaceHead(NULL);
+    gem5::Event* eventq_head = eventq->replaceHead(NULL);
     DPRINTF(RubyCacheTrace, "Recording current tick %ld and event queue\n",
             curtick_original);
 
@@ -372,7 +372,7 @@ RubySystem::startup()
         // save the current tick value
         Tick curtick_original = curTick();
         // save the event queue head
-        Event* eventq_head = eventq->replaceHead(NULL);
+        gem5::Event* eventq_head = eventq->replaceHead(NULL);
         // set curTick to 0 and reset Ruby System's clock
         setCurTick(0);
         resetClock();

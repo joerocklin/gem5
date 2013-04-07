@@ -52,7 +52,7 @@ class EtherBus : public EtherObject
     bool loopback;
 
   protected:
-    class DoneEvent : public Event
+    class DoneEvent : public gem5::Event
     {
       protected:
         EtherBus *bus;

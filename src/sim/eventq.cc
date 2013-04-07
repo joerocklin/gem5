@@ -45,6 +45,7 @@
 #include "sim/eventq_impl.hh"
 
 using namespace std;
+using namespace gem5;
 
 //
 // Main Event Queue
@@ -306,7 +307,7 @@ EventQueue::unserialize(Checkpoint *cp, const std::string &section)
         paramIn(cp, section, csprintf("event%d", i), eventName);
 
         // create the event based on its pointer value
-        Serializable::create(cp, eventName);
+        gem5::Serializable::create(cp, eventName);
     }
 }
 

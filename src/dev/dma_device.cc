@@ -153,7 +153,7 @@ DmaPort::recvRetry()
 }
 
 void
-DmaPort::dmaAction(Packet::Command cmd, Addr addr, int size, Event *event,
+DmaPort::dmaAction(Packet::Command cmd, Addr addr, int size, gem5::Event *event,
                    uint8_t *data, Tick delay, Request::Flags flag)
 {
     // one DMA request sender state for every action, that is then

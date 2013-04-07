@@ -97,11 +97,11 @@ class Consumer
     std::set<Tick> m_scheduled_wakeups;
     ClockedObject *em;
 
-    class ConsumerEvent : public Event
+    class ConsumerEvent : public gem5::Event
     {
       public:
           ConsumerEvent(Consumer* _consumer)
-              : Event(Default_Pri, AutoDelete), m_consumer_ptr(_consumer)
+              : gem5::Event(Default_Pri, AutoDelete), m_consumer_ptr(_consumer)
           {
           }
 

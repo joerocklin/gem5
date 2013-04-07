@@ -40,7 +40,7 @@
 using namespace std;
 
 SimLoopExitEvent::SimLoopExitEvent(const std::string &_cause, int c, Tick r)
-    : Event(Sim_Exit_Pri, IsExitEvent), cause(_cause), code(c), repeat(r)
+    : gem5::Event(Sim_Exit_Pri, IsExitEvent), cause(_cause), code(c), repeat(r)
 {
 }
 
@@ -79,7 +79,7 @@ SimLoopExitEvent::description() const
 void
 exitSimLoop(const std::string &message, int exit_code, Tick when, Tick repeat)
 {
-    Event *event = new SimLoopExitEvent(message, exit_code, repeat);
+    gem5::Event *event = new SimLoopExitEvent(message, exit_code, repeat);
     mainEventQueue.schedule(event, when);
 }
 
@@ -87,7 +87,7 @@ exitSimLoop(const std::string &message, int exit_code, Tick when, Tick repeat)
 // constructor: automatically schedules at specified time
 //
 CountedExitEvent::CountedExitEvent(const std::string &_cause, int &counter)
-    : Event(Sim_Exit_Pri), cause(_cause), downCounter(counter)
+    : gem5::Event(Sim_Exit_Pri), cause(_cause), downCounter(counter)
 {
     // catch stupid mistakes
     assert(downCounter > 0);

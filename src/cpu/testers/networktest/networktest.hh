@@ -64,13 +64,13 @@ class NetworkTest : public MemObject
     void printAddr(Addr a);
 
   protected:
-    class TickEvent : public Event
+    class TickEvent : public gem5::Event
     {
       private:
         NetworkTest *cpu;
 
       public:
-        TickEvent(NetworkTest *c) : Event(CPU_Tick_Pri), cpu(c) {}
+        TickEvent(NetworkTest *c) : gem5::Event(CPU_Tick_Pri), cpu(c) {}
         void process() { cpu->tick(); }
         virtual const char *description() const { return "NetworkTest tick"; }
     };

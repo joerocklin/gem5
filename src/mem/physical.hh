@@ -64,7 +64,7 @@ class AbstractMemory;
  * the number of memory controllers, and their address mapping, as
  * long as the ranges stay the same.
  */
-class PhysicalMemory : public Serializable
+class PhysicalMemory : public gem5::Serializable
 {
 
   private:

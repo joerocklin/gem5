@@ -38,7 +38,7 @@
 #include "sim/eventq.hh"
 
 inline void
-EventQueue::schedule(Event *event, Tick when)
+EventQueue::schedule(gem5::Event *event, Tick when)
 {
     assert(when >= getCurTick());
     assert(!event->scheduled());
@@ -46,36 +46,36 @@ EventQueue::schedule(Event *event, Tick when)
 
     event->setWhen(when, this);
     insert(event);
-    event->flags.set(Event::Scheduled);
+    event->flags.set(gem5::Event::Scheduled);
     if (this == &mainEventQueue)
-        event->flags.set(Event::IsMainQueue);
+        event->flags.set(gem5::Event::IsMainQueue);
     else
-        event->flags.clear(Event::IsMainQueue);
+        event->flags.clear(gem5::Event::IsMainQueue);
 
     if (DTRACE(Event))
         event->trace("scheduled");
 }
 
 inline void
-EventQueue::deschedule(Event *event)
+EventQueue::deschedule(gem5::Event *event)
 {
     assert(event->scheduled());
     assert(event->initialized());
 
     remove(event);
 
-    event->flags.clear(Event::Squashed);
-    event->flags.clear(Event::Scheduled);
+    event->flags.clear(gem5::Event::Squashed);
+    event->flags.clear(gem5::Event::Scheduled);
 
     if (DTRACE(Event))
         event->trace("descheduled");
 
-    if (event->flags.isSet(Event::AutoDelete))
+    if (event->flags.isSet(gem5::Event::AutoDelete))
         delete event;
 }
 
 inline void
-EventQueue::reschedule(Event *event, Tick when, bool always)
+EventQueue::reschedule(gem5::Event *event, Tick when, bool always)
 {
     assert(when >= getCurTick());
     assert(always || event->scheduled());
@@ -86,12 +86,12 @@ EventQueue::reschedule(Event *event, Tick when, bool always)
 
     event->setWhen(when, this);
     insert(event);
-    event->flags.clear(Event::Squashed);
-    event->flags.set(Event::Scheduled);
+    event->flags.clear(gem5::Event::Squashed);
+    event->flags.set(gem5::Event::Scheduled);
     if (this == &mainEventQueue)
-        event->flags.set(Event::IsMainQueue);
+        event->flags.set(gem5::Event::IsMainQueue);
     else
-        event->flags.clear(Event::IsMainQueue);
+        event->flags.clear(gem5::Event::IsMainQueue);
 
     if (DTRACE(Event))
         event->trace("rescheduled");

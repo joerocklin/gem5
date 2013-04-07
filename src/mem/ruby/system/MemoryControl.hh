@@ -98,7 +98,7 @@ class MemoryControl : public ClockedObject, public Consumer
     { fatal("Functional read access not implemented!");}
 
 protected:
-    class MemCntrlEvent : public Event
+    class MemCntrlEvent : public gem5::Event
     {
       public:
         MemCntrlEvent(MemoryControl* _mem_cntrl)

@@ -169,7 +169,7 @@ class TimingSimpleCPU : public BaseSimpleCPU
 
         TimingSimpleCPU* cpu;
 
-        struct TickEvent : public Event
+        struct TickEvent : public gem5::Event
         {
             PacketPtr pkt;
             TimingSimpleCPU *cpu;
@@ -302,7 +302,7 @@ class TimingSimpleCPU : public BaseSimpleCPU
     typedef EventWrapper<TimingSimpleCPU, &TimingSimpleCPU::fetch> FetchEvent;
     FetchEvent fetchEvent;
 
-    struct IprEvent : Event {
+    struct IprEvent : gem5::Event {
         Packet *pkt;
         TimingSimpleCPU *cpu;
         IprEvent(Packet *_pkt, TimingSimpleCPU *_cpu, Tick t);

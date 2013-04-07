@@ -103,7 +103,7 @@ class DefaultCommit
     /** Event class used to schedule a squash due to a trap (fault or
      * interrupt) to happen on a specific cycle.
      */
-    class TrapEvent : public Event {
+    class TrapEvent : public gem5::Event {
       private:
         DefaultCommit<Impl> *commit;
         ThreadID tid;

@@ -193,7 +193,7 @@ class FullO3CPU : public BaseO3CPU
         virtual bool isSnooping() const { return true; }
     };
 
-    class TickEvent : public Event
+    class TickEvent : public gem5::Event
     {
       private:
         /** Pointer to the CPU. */
@@ -228,7 +228,7 @@ class FullO3CPU : public BaseO3CPU
             tickEvent.squash();
     }
 
-    class ActivateThreadEvent : public Event
+    class ActivateThreadEvent : public gem5::Event
     {
       private:
         /** Number of Thread to Activate */
@@ -285,7 +285,7 @@ class FullO3CPU : public BaseO3CPU
     /** The tick event used for scheduling CPU ticks. */
     ActivateThreadEvent activateThreadEvent[Impl::MaxThreads];
 
-    class DeallocateContextEvent : public Event
+    class DeallocateContextEvent : public gem5::Event
     {
       private:
         /** Number of Thread to deactivate */

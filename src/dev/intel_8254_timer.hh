@@ -81,7 +81,7 @@ class Intel8254Timer : public EventManager
     class Counter
     {
         /** Event for counter interrupt */
-        class CounterEvent : public Event
+        class CounterEvent : public gem5::Event
         {
           private:
             /** Pointer back to Counter */

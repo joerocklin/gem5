@@ -55,6 +55,7 @@
 #include "sim/stat_control.hh"
 
 using namespace std;
+using namespace gem5;
 
 extern SimObject *resolveSimObject(const string &);
 

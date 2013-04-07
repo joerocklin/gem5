@@ -45,7 +45,9 @@
 
 #include "base/flags.hh"
 
-class Event;
+namespace gem5 {
+  class Event;
+}
 
 /**
  * This class coordinates draining of a System.

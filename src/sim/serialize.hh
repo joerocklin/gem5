@@ -45,8 +45,11 @@
 
 #include "base/types.hh"
 
+namespace gem5 {
+  class Serializable;
+};
+
 class IniFile;
-class Serializable;
 class Checkpoint;
 class SimObject;
 
@@ -144,6 +147,7 @@ void fromSimObject(T &t, SimObject *s)
     fromSimObject(objptr, sptr);                        \
   } while (0)
 
+namespace gem5 {
 /**
  * Basic support for object serialization.
  *
@@ -177,7 +181,7 @@ class Serializable
     static void serializeAll(const std::string &cpt_dir);
     static void unserializeGlobals(Checkpoint *cp);
 };
-
+}
 void debug_serialize(const std::string &cpt_dir);
 
 //
@@ -205,7 +209,7 @@ class SerializableBuilder
     // values in this context.  This function is overridden in derived
     // classes to call a specific constructor for a particular
     // subclass of Serializable.
-    virtual Serializable *create() = 0;
+    virtual gem5::Serializable *create() = 0;
 };
 
 //
@@ -227,7 +231,7 @@ class SerializableClass
     // for the object (specified by the second string argument), and
     // an optional config hierarchy node (specified by the third
     // argument).  A pointer to the new SerializableBuilder is returned.
-    typedef Serializable *(*CreateFunc)(Checkpoint *cp,
+    typedef gem5::Serializable *(*CreateFunc)(Checkpoint *cp,
                                         const std::string &section);
 
     static std::map<std::string,CreateFunc> *classMap;
@@ -241,7 +245,7 @@ class SerializableClass
 
     // create Serializable given name of class and pointer to
     // configuration hierarchy node
-    static Serializable *createObject(Checkpoint *cp,
+    static gem5::Serializable *createObject(Checkpoint *cp,
                                       const std::string &section);
 };
 

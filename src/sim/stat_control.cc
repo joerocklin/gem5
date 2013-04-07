@@ -74,7 +74,7 @@ namespace Stats {
 Time statTime(true);
 Tick startTick;
 
-Event *dumpEvent;
+gem5::Event *dumpEvent;
 
 struct SimTicksReset : public Callback
 {
@@ -216,7 +216,7 @@ initSimStats()
 /**
  * Event to dump and/or reset the statistics.
  */
-class StatEvent : public Event
+class StatEvent : public gem5::Event
 {
   private:
     bool dump;
@@ -225,7 +225,7 @@ class StatEvent : public Event
 
   public:
     StatEvent(bool _dump, bool _reset, Tick _repeat)
-        : Event(Stat_Event_Pri, AutoDelete),
+        : gem5::Event(Stat_Event_Pri, AutoDelete),
           dump(_dump), reset(_reset), repeat(_repeat)
     {
     }

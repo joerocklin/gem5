@@ -84,7 +84,7 @@ class EtherTap : public EtherObject
 
     /*
      */
-    class TxEvent : public Event
+    class TxEvent : public gem5::Event
     {
       protected:
         EtherTap *tap;

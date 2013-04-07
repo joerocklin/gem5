@@ -594,7 +594,7 @@ class SimObject(object):
     abstract = True
     cxx_header = "sim/sim_object.hh"
 
-    cxx_bases = [ "Drainable", "Serializable" ]
+    cxx_bases = [ "Drainable", "gem5::Serializable" ]
 
     @classmethod
     def export_method_swig_predecls(cls, code):

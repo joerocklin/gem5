@@ -128,7 +128,7 @@ EtherLink::Link::txComplete(EthPacketPtr packet)
     rxint->sendPacket(packet);
 }
 
-class LinkDelayEvent : public Event
+class LinkDelayEvent : public gem5::Event
 {
   protected:
     EtherLink::Link *link;
@@ -143,7 +143,7 @@ class LinkDelayEvent : public Event
 
     virtual void serialize(ostream &os);
     virtual void unserialize(Checkpoint *cp, const string &section);
-    static Serializable *createForUnserialize(Checkpoint *cp,
+    static gem5::Serializable *createForUnserialize(Checkpoint *cp,
                                               const string &section);
 };
 
@@ -155,7 +155,7 @@ EtherLink::Link::txDone()
 
     if (linkDelay > 0) {
         DPRINTF(Ethernet, "packet delayed: delay=%d\n", linkDelay);
-        Event *event = new LinkDelayEvent(this, packet);
+        gem5::Event *event = new LinkDelayEvent(this, packet);
         parent->schedule(event, curTick() + linkDelay);
     } else {
         txComplete(packet);
@@ -247,7 +247,7 @@ void
 LinkDelayEvent::serialize(ostream &os)
 {
     paramOut(os, "type", string("LinkDelayEvent"));
-    Event::serialize(os);
+    gem5::Event::serialize(os);
 
     EtherLink *parent = link->parent;
     bool number = link->number;
@@ -261,7 +261,7 @@ LinkDelayEvent::serialize(ostream &os)
 void
 LinkDelayEvent::unserialize(Checkpoint *cp, const string &section)
 {
-    Event::unserialize(cp, section);
+    gem5::Event::unserialize(cp, section);
 
     EtherLink *parent;
     bool number;
@@ -275,7 +275,7 @@ LinkDelayEvent::unserialize(Checkpoint *cp, const string &section)
 }
 
 
-Serializable *
+gem5::Serializable *
 LinkDelayEvent::createForUnserialize(Checkpoint *cp, const string &section)
 {
     return new LinkDelayEvent();

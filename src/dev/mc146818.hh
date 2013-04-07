@@ -46,7 +46,7 @@ class MC146818 : public EventManager
 
   private:
     /** Event for RTC periodic interrupt */
-    struct RTCEvent : public Event
+    struct RTCEvent : public gem5::Event
     {
         MC146818 * parent;
         Tick interval;
@@ -64,7 +64,7 @@ class MC146818 : public EventManager
     };
 
     /** Event for RTC periodic interrupt */
-    struct RTCTickEvent : public Event
+    struct RTCTickEvent : public gem5::Event
     {
         MC146818 * parent;
 

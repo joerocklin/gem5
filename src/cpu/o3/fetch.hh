@@ -112,7 +112,7 @@ class DefaultFetch
     /* Event to delay delivery of a fetch translation result in case of
      * a fault and the nop to carry the fault cannot be generated
      * immediately */
-    class FinishTranslationEvent : public Event
+    class FinishTranslationEvent : public gem5::Event
     {
       private:
         DefaultFetch<Impl> *fetch;
