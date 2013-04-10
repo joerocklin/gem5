@@ -998,6 +998,10 @@ def makeEnv(label, objsfx, strip = False, **kwargs):
             MakeAction('ln $SOURCE $TARGET', Transform("HARDLINK")))
 
     new_env.M5Binary = targets[0]
+
+    new_env.Append(LIBPATH='/usr/local/lib')
+    new_env.Append(LIBS='warped')
+
     envList.append(new_env)
 
 # Start out with the compiler flags common to all compilers,

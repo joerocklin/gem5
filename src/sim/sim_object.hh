@@ -50,7 +50,10 @@
 #include "sim/serialize.hh"
 
 class BaseCPU;
-class Event;
+
+namespace gem5 {
+  class Event;
+}
 
 /**
  * Abstract superclass for simulation objects.  Represents things that
