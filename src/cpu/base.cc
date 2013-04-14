@@ -69,6 +69,10 @@
 // Hack
 #include "sim/stat_control.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 
 vector<BaseCPU *> BaseCPU::cpuList;
@@ -585,3 +589,7 @@ BaseCPU::traceFunctionsInternal(Addr pc)
         functionEntryTick = curTick();
     }
 }
+                                        
+#ifdef WARPED
+warped::State* BaseCPU::allocateState() { return new SimState(); }
+#endif

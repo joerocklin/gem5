@@ -46,6 +46,10 @@
 #include "sim/stats.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 
 int TESTER_NETWORK=0;
@@ -285,3 +289,8 @@ NetworkTestParams::create()
 {
     return new NetworkTest(this);
 }
+
+#ifdef WARPED
+warped::State* 
+NetworkTest::allocateState() { return new SimState(); }
+#endif

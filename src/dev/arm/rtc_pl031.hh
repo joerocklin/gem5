@@ -43,6 +43,10 @@
 #include "dev/arm/amba_device.hh"
 #include "params/PL031.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 /** @file
  * This implements the ARM Primecell 031 RTC
  */
@@ -128,6 +132,12 @@ class PL031 : public AmbaIntDevice
 
     virtual void serialize(std::ostream &os);
     virtual void unserialize(Checkpoint *cp, const std::string &section);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 

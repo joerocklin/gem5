@@ -54,6 +54,10 @@
 #include "mem/packet.hh"
 #include "params/RubyTester.hh"
 
+#ifdef WARPED
+    warped::State* allocateState();
+#endif
+
 class RubyTester : public MemObject
 {
   public:
@@ -154,6 +158,11 @@ class RubyTester : public MemObject
     int m_wakeup_frequency;
     bool m_check_flush;
     int m_num_inst_ports;
+
+#ifdef WARPED
+    warped::State* allocateState();
+#endif
+
 };
 
 inline std::ostream&

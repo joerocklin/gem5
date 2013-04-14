@@ -42,6 +42,10 @@
 #include "dev/etherdump.hh"
 #include "sim/core.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using std::string;
 
 EtherDump::EtherDump(const Params *p)
@@ -108,3 +112,8 @@ EtherDumpParams::create()
 {
     return new EtherDump(this);
 }
+
+#ifdef WARPED
+warped::State* 
+EtherDump::allocateState() { return new SimState(); }
+#endif

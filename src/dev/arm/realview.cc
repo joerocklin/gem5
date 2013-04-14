@@ -55,6 +55,10 @@
 #include "dev/terminal.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 using namespace TheISA;
 
@@ -120,3 +124,8 @@ RealViewParams::create()
 {
     return new RealView(this);
 }
+
+#ifdef WARPED
+warped::State* 
+RealView::allocateState() { return new SimState(); }
+#endif

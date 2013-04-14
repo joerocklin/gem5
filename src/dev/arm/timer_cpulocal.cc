@@ -47,6 +47,10 @@
 #include "mem/packet.hh"
 #include "mem/packet_access.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 CpuLocalTimer::CpuLocalTimer(Params *p)
     : BasicPioDevice(p), gic(p->gic)
 {
@@ -440,3 +444,8 @@ CpuLocalTimerParams::create()
 {
     return new CpuLocalTimer(this);
 }
+
+#ifdef WARPED
+warped::State* 
+CpuLocalTimer::allocateState() { return new SimState(); }
+#endif

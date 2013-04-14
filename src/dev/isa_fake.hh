@@ -42,6 +42,10 @@
 #include "mem/packet.hh"
 #include "params/IsaFake.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 /**
  * IsaFake is a device that returns, BadAddr, 1 or 0 on all reads and
  *  rites. It is meant to be placed at an address range
@@ -83,6 +87,12 @@ class IsaFake : public BasicPioDevice
      * @param data the data to not write.
      */
     virtual Tick write(PacketPtr pkt);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif // __ISA_FAKE_HH__

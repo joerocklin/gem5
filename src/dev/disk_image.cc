@@ -50,6 +50,10 @@
 #include "sim/byteswap.hh"
 #include "sim/sim_exit.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////
@@ -427,3 +431,10 @@ CowDiskImageParams::create()
 {
     return new CowDiskImage(this);
 }
+
+#ifdef WARPED
+warped::State* 
+RawDiskImage::allocateState() { return new SimState(); }
+warped::State* 
+CowDiskImage::allocateState() { return new SimState(); }
+#endif

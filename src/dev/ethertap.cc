@@ -52,6 +52,10 @@
 #include "dev/etherpkt.hh"
 #include "dev/ethertap.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 
 /**
@@ -339,3 +343,8 @@ EtherTapParams::create()
 {
     return new EtherTap(this);
 }
+
+#ifdef WARPED
+warped::State* 
+EtherTap::allocateState() { return new SimState(); }
+#endif

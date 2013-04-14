@@ -42,6 +42,10 @@
 #include "mem/packet.hh"
 #include "params/RubyDirectedTester.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class DirectedGenerator;
 
 class RubyDirectedTester : public MemObject
@@ -114,6 +118,12 @@ class RubyDirectedTester : public MemObject
     std::vector<MasterPort*> ports;
     uint64 m_requests_to_complete;
     DirectedGenerator* generator;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif // __CPU_DIRECTEDTEST_RUBYDIRECTEDTESTER_HH__

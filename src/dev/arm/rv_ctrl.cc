@@ -42,6 +42,10 @@
 #include "mem/packet.hh"
 #include "mem/packet_access.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 RealViewCtrl::RealViewCtrl(Params *p)
     : BasicPioDevice(p), flags(0)
 {
@@ -166,3 +170,8 @@ RealViewCtrlParams::create()
 {
     return new RealViewCtrl(this);
 }
+
+#ifdef WARPED
+warped::State* 
+RealViewCtrl::allocateState() { return new SimState(); }
+#endif

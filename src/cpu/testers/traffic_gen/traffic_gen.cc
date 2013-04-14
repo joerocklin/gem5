@@ -49,6 +49,10 @@
 #include "sim/stats.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 
 TrafficGen::TrafficGen(const TrafficGenParams* p)
@@ -616,3 +620,7 @@ TrafficGen::TrafficGenPort::recvTimingResp(PacketPtr pkt)
 
     return true;
 }
+#ifdef WARPED
+warped::State* 
+TrafficGen::allocateState() { return new SimState(); }
+#endif

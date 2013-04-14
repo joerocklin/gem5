@@ -43,6 +43,10 @@
 #include "params/PciConfigAll.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 PciConfigAll::PciConfigAll(const Params *p)
     : PioDevice(p)
 {
@@ -102,3 +106,8 @@ PciConfigAllParams::create()
 }
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
+
+#ifdef WARPED
+warped::State* 
+PciConfigAll::allocateState() { return new SimState(); }
+#endif

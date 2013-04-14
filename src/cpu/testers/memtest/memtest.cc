@@ -48,6 +48,10 @@
 #include "sim/stats.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 
 int TESTER_ALLOCATOR=0;
@@ -385,3 +389,8 @@ MemTestParams::create()
 {
     return new MemTest(this);
 }
+
+#ifdef WARPED
+warped::State* 
+MemTest::allocateState() { return new SimState(); }
+#endif

@@ -54,6 +54,10 @@
 #include "params/LinuxArmSystem.hh"
 #include "sim/core.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class DumpStatsPCEvent;
 
 class LinuxArmSystem : public ArmSystem
@@ -124,6 +128,12 @@ class LinuxArmSystem : public ArmSystem
     Addr secDataPtrAddr;
     Addr secDataAddr;
     Addr penReleaseAddr;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 class DumpStatsPCEvent : public PCEvent

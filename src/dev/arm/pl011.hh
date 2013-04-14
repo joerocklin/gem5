@@ -54,6 +54,10 @@
 #include "dev/uart.hh"
 #include "params/Pl011.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class BaseGic;
 
 class Pl011 : public Uart
@@ -162,6 +166,11 @@ class Pl011 : public Uart
 
     virtual void serialize(std::ostream &os);
     virtual void unserialize(Checkpoint *cp, const std::string &section);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
 
 };
 

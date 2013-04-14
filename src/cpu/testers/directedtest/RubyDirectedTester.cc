@@ -44,6 +44,10 @@
 #include "debug/DirectedTest.hh"
 #include "sim/sim_exit.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 RubyDirectedTester::RubyDirectedTester(const Params *p)
   : MemObject(p), directedStartEvent(this),
     m_requests_to_complete(p->requests_to_complete),
@@ -139,3 +143,8 @@ RubyDirectedTesterParams::create()
 {
     return new RubyDirectedTester(this);
 }
+
+#ifdef WARPED
+warped::State* 
+RubyDirectedTester::allocateState() { return new SimState(); }
+#endif

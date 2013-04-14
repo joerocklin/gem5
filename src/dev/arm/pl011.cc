@@ -51,6 +51,10 @@
 #include "mem/packet_access.hh"
 #include "sim/sim_exit.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 Pl011::Pl011(const Params *p)
     : Uart(p), control(0x300), fbrd(0), ibrd(0), lcrh(0), ifls(0x12), imsc(0),
       rawInt(0), maskInt(0), intNum(p->int_num), gic(p->gic),
@@ -329,3 +333,8 @@ Pl011Params::create()
 {
     return new Pl011(this);
 }
+
+#ifdef WARPED
+warped::State* 
+Pl011::allocateState() { return new SimState(); }
+#endif

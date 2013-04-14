@@ -447,10 +447,11 @@ class BaseCPU : public MemObject
     Stats::Scalar numCycles;
     Stats::Scalar numWorkItemsStarted;
     Stats::Scalar numWorkItemsCompleted;
-                                        
+    
 #ifdef WARPED
-    warped::State* allocateState() { return new SimState(); }
+    warped::State* allocateState();
 #endif
+    
 };
 
 #endif // __CPU_BASE_HH__

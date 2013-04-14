@@ -48,6 +48,10 @@
 #include "debug/TLBVerbose.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace ArmISA;
 
 TableWalker::TableWalker(const Params *p)
@@ -824,3 +828,9 @@ ArmTableWalkerParams::create()
     return new ArmISA::TableWalker(this);
 }
 
+#ifdef WARPED
+namespace ArmISA {
+warped::State* 
+ArmISA::TableWalker::allocateState() { return new SimState(); }
+}
+#endif

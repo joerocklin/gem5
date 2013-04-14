@@ -41,6 +41,10 @@
 #include "params/EtherDump.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 /*
  * Simple object for creating a simple pcap style packet trace
  */
@@ -57,6 +61,12 @@ class EtherDump : public SimObject
     EtherDump(const Params *p);
 
     inline void dump(EthPacketPtr &pkt) { dumpPacket(pkt); }
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif // __ETHERDUMP_H__

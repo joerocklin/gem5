@@ -49,6 +49,10 @@
 #include "mem/port_proxy.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 
 SimpleDisk::SimpleDisk(const Params *p)
@@ -97,3 +101,8 @@ SimpleDiskParams::create()
 {
     return new SimpleDisk(this);
 }
+
+#ifdef WARPED
+warped::State* 
+SimpleDisk::allocateState() { return new SimState(); }
+#endif

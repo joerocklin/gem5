@@ -51,6 +51,10 @@
 #include "mem/packet_access.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 // clang complains about std::set being overloaded with Packet::set if
 // we open up the entire namespace std
 using std::vector;
@@ -755,3 +759,7 @@ Pl111Params::create()
 }
 
 
+#ifdef WARPED
+warped::State* 
+Pl111::allocateState() { return new SimState(); }
+#endif

@@ -46,6 +46,10 @@
 #include "mem/packet.hh"
 #include "mem/packet_access.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace AmbaDev;
 
 Sp804::Sp804(Params *p)
@@ -288,3 +292,8 @@ Sp804Params::create()
 {
     return new Sp804(this);
 }
+
+#ifdef WARPED
+warped::State* 
+Sp804::allocateState() { return new SimState(); }
+#endif

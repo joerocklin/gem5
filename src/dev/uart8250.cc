@@ -46,6 +46,10 @@
 #include "mem/packet.hh"
 #include "mem/packet_access.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 using namespace TheISA;
 
@@ -339,3 +343,8 @@ Uart8250Params::create()
 {
     return new Uart8250(this);
 }
+
+#ifdef WARPED
+warped::State* 
+Uart8250::allocateState() { return new SimState(); }
+#endif

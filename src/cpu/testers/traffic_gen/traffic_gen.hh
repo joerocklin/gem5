@@ -47,6 +47,10 @@
 #include "params/TrafficGen.hh"
 #include "proto/protoio.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 /**
  * The traffic generator is a master module that generates stimuli for
  * the memory system, based on a collection of simple behaviours that
@@ -622,6 +626,10 @@ class TrafficGen : public MemObject
     void serialize(std::ostream &os);
 
     void unserialize(Checkpoint* cp, const std::string& section);
+
+#ifdef WARPED
+    warped::State* allocateState();
+#endif
 
 };
 

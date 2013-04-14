@@ -41,6 +41,10 @@
 #include "params/IdeController.hh"
 #include "sim/byteswap.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 // clang complains about std::set being overloaded with Packet::set if
 // we open up the entire namespace std
 using std::string;
@@ -613,3 +617,8 @@ IdeControllerParams::create()
 {
     return new IdeController(this);
 }
+
+#ifdef WARPED
+warped::State* 
+IdeController::allocateState() { return new SimState(); }
+#endif

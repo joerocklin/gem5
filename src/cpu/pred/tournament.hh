@@ -51,6 +51,10 @@
 #include "cpu/pred/bpred_unit.hh"
 #include "cpu/pred/sat_counter.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 /**
  * Implements a tournament branch predictor, hopefully identical to the one
  * used in the 21264.  It has a local predictor, which uses a local history

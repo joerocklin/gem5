@@ -54,6 +54,10 @@
 #include "dev/arm/amba_device.hh"
 #include "params/Pl050.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class Pl050 : public AmbaIntDevice, public VncKeyboard, public VncMouse
 {
   protected:
@@ -159,6 +163,11 @@ class Pl050 : public AmbaIntDevice, public VncKeyboard, public VncMouse
 
     virtual void serialize(std::ostream &os);
     virtual void unserialize(Checkpoint *cp, const std::string &section);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
 };
 
 #endif // __DEV_ARM_PL050_HH__

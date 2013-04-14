@@ -43,6 +43,10 @@
 #include "params/BadDevice.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 
 BadDevice::BadDevice(Params *p)
@@ -70,3 +74,8 @@ BadDeviceParams::create()
 {
     return new BadDevice(this);
 }
+
+#ifdef WARPED
+warped::State* 
+BadDevice::allocateState() { return new SimState(); }
+#endif

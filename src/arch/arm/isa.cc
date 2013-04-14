@@ -48,6 +48,10 @@
 #include "sim/stat_control.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 namespace ArmISA
 {
 
@@ -669,3 +673,10 @@ ArmISAParams::create()
 {
     return new ArmISA::ISA(this);
 }
+
+#ifdef WARPED
+namespace ArmISA {
+warped::State* 
+ArmISA::ISA::allocateState() { return new SimState(); }
+}
+#endif

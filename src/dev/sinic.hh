@@ -43,6 +43,10 @@
 #include "params/Sinic.hh"
 #include "sim/eventq.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 namespace Sinic {
 
 class Interface;
@@ -303,6 +307,12 @@ class Device : public Base
   public:
     Device(const Params *p);
     ~Device();
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 /*

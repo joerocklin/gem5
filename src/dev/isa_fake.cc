@@ -39,6 +39,10 @@
 #include "mem/packet_access.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 
 IsaFake::IsaFake(Params *p)
@@ -153,3 +157,8 @@ IsaFakeParams::create()
 {
     return new IsaFake(this);
 }
+
+#ifdef WARPED
+warped::State* 
+IsaFake::allocateState() { return new SimState(); }
+#endif

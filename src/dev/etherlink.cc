@@ -51,6 +51,10 @@
 #include "sim/serialize.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 
 EtherLink::EtherLink(const Params *p)
@@ -288,3 +292,8 @@ EtherLinkParams::create()
 {
     return new EtherLink(this);
 }
+
+#ifdef WARPED
+warped::State* 
+EtherLink::allocateState() { return new SimState(); }
+#endif

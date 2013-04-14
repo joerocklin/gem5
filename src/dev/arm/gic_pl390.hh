@@ -55,6 +55,10 @@
 #include "dev/platform.hh"
 #include "params/Pl390.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 /** @todo this code only assumes one processor for now. Low word
  * of intEnabled and pendingInt need to be replicated per CPU.
  * bottom 31 interrupts (7 words) need to be replicated for
@@ -320,6 +324,12 @@ class Pl390 : public BaseGic
      * @param pkt packet to respond to
      */
     Tick writeCpu(PacketPtr pkt);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif //__DEV_ARM_GIC_H__

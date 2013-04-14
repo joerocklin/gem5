@@ -32,6 +32,10 @@
 #include "cpu/testers/directedtest/RubyDirectedTester.hh"
 #include "debug/DirectedTest.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 InvalidateGenerator::InvalidateGenerator(const Params *p)
     : DirectedGenerator(p)
 {
@@ -139,3 +143,8 @@ InvalidateGeneratorParams::create()
 {
     return new InvalidateGenerator(this);
 }
+
+#ifdef WARPED
+warped::State* 
+InvalidateGenerator::allocateState() { return new SimState(); }
+#endif

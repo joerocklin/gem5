@@ -63,6 +63,10 @@
 #include "sim/full_system.hh"
 #include "sim/process.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 using namespace ArmISA;
 
@@ -742,3 +746,10 @@ ArmTLBParams::create()
 {
     return new ArmISA::TLB(this);
 }
+
+#ifdef WARPED
+namespace ArmISA {
+warped::State* 
+ArmISA::TLB::allocateState() { return new SimState(); }
+}
+#endif

@@ -38,6 +38,10 @@
 #include "params/SimpleDisk.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class DiskImage;
 class System;
 
@@ -60,6 +64,12 @@ class SimpleDisk : public SimObject
 
     void read(Addr addr, baddr_t block, int count) const;
     void write(Addr addr, baddr_t block, int count);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif // __DEV_SIMPLE_DISK_HH__

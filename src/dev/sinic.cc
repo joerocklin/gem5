@@ -48,6 +48,10 @@
 #include "sim/eventq.hh"
 #include "sim/stats.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 using namespace Net;
 using namespace TheISA;
@@ -1563,3 +1567,8 @@ SinicParams::create()
 {
     return new Sinic::Device(this);
 }
+
+#ifdef WARPED
+warped::State* 
+Sinic::Device::allocateState() { return new SimState(); }
+#endif

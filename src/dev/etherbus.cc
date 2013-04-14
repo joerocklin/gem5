@@ -47,6 +47,10 @@
 #include "params/EtherBus.hh"
 #include "sim/core.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 
 EtherBus::EtherBus(const Params *p)
@@ -111,3 +115,8 @@ EtherBusParams::create()
 {
     return new EtherBus(this);
 }
+
+#ifdef WARPED
+warped::State* 
+EtherBus::allocateState() { return new SimState(); }
+#endif

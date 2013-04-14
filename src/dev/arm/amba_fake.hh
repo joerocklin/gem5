@@ -54,6 +54,10 @@
 #include "dev/arm/amba_device.hh"
 #include "params/AmbaFake.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class AmbaFake : public AmbaDevice
 {
   public:
@@ -67,6 +71,11 @@ class AmbaFake : public AmbaDevice
 
     virtual Tick read(PacketPtr pkt);
     virtual Tick write(PacketPtr pkt);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
 
 };
 

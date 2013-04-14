@@ -46,6 +46,10 @@
 #include "mem/packet.hh"
 #include "mem/packet_access.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace AmbaDev;
 
 AmbaFake::AmbaFake(const Params *p)
@@ -92,3 +96,8 @@ AmbaFakeParams::create()
 {
     return new AmbaFake(this);
 }
+
+#ifdef WARPED
+warped::State* 
+AmbaFake::allocateState() { return new SimState(); }
+#endif

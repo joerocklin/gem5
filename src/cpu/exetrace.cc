@@ -44,6 +44,10 @@
 #include "debug/ExecAll.hh"
 #include "enums/OpClass.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 using namespace TheISA;
 
@@ -172,3 +176,12 @@ ExeTracerParams::create()
 {
     return new Trace::ExeTracer(this);
 }
+
+
+    
+#ifdef WARPED
+namespace Trace {
+warped::State* Trace::ExeTracer::allocateState() { return new SimState(); }
+warped::State* Trace::ExeTracerRecord::allocateState() { return new SimState(); }
+}
+#endif

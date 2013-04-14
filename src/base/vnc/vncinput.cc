@@ -49,6 +49,10 @@
 #include "base/trace.hh"
 #include "debug/VNC.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 
 VncInput::VncInput(const Params *p)
@@ -129,3 +133,9 @@ VncInputParams::create()
 {
     return new VncInput(this);
 }
+
+    
+#ifdef WARPED
+warped::State* VncInput::allocateState() { return new SimState(); }
+#endif
+    

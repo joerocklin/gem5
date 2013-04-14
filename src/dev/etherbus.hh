@@ -41,6 +41,10 @@
 #include "sim/eventq.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class EtherDump;
 class EtherInt;
 class EtherBus : public EtherObject
@@ -85,6 +89,12 @@ class EtherBus : public EtherObject
     bool busy() const { return (bool)packet; }
     bool send(EtherInt *sender, EthPacketPtr &packet);
     virtual EtherInt *getEthPort(const std::string &if_name, int idx);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif // __ETHERBUS_H__

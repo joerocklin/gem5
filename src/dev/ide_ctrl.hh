@@ -43,6 +43,10 @@
 #include "dev/pcireg.h"
 #include "params/IdeController.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class IdeDisk;
 
 /**
@@ -157,5 +161,11 @@ class IdeController : public PciDev
 
     void serialize(std::ostream &os);
     void unserialize(Checkpoint *cp, const std::string &section);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 #endif // __IDE_CTRL_HH_

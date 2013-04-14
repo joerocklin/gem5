@@ -57,6 +57,10 @@
 #include "mem/physical.hh"
 #include "sim/stat_control.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace ArmISA;
 using namespace Linux;
 
@@ -328,3 +332,7 @@ DumpStatsPCEvent::process(ThreadContext *tc)
     Stats::schedStatEvent(true, true, curTick(), 0);
 }
 
+#ifdef WARPED
+warped::State* 
+LinuxArmSystem::allocateState() { return new SimState(); }
+#endif

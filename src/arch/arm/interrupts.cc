@@ -38,9 +38,20 @@
  */
 
 #include "arch/arm/interrupts.hh"
+
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
     
 ArmISA::Interrupts *
 ArmInterruptsParams::create()
 {
     return new ArmISA::Interrupts(this);
 }
+
+#ifdef WARPED
+namespace ArmISA {
+warped::State* 
+ArmISA::Interrupts::allocateState() { return new SimState(); }
+}
+#endif

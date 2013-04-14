@@ -40,6 +40,10 @@
 #include "sim/sim_object.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class IntrControl : public SimObject
 {
   public:
@@ -61,6 +65,11 @@ class IntrControl : public SimObject
     {
         post(0, int_num, index);
     }
+
+#ifdef WARPED
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif // __INTR_CONTROL_HH__

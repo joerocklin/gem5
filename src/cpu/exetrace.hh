@@ -41,6 +41,10 @@
 #include "params/ExeTracer.hh"
 #include "sim/insttracer.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class ThreadContext;
 
 namespace Trace {
@@ -60,6 +64,10 @@ class ExeTracerRecord : public InstRecord
 
     void dump();
     virtual void dumpTicks(std::ostream &outs);
+
+#ifdef WARPED
+    warped::State* allocateState();
+#endif
 };
 
 class ExeTracer : public InstTracer
@@ -86,6 +94,10 @@ class ExeTracer : public InstTracer
         return new ExeTracerRecord(when, tc,
                 staticInst, pc, tc->misspeculating(), macroStaticInst);
     }
+
+#ifdef WARPED
+    warped::State* allocateState();
+#endif
 };
 
 } // namespace Trace

@@ -50,6 +50,10 @@
 #include "params/NSGigE.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 // clang complains about std::set being overloaded with Packet::set if
 // we open up the entire namespace std
 using std::min;
@@ -2481,3 +2485,8 @@ NSGigEParams::create()
 {
     return new NSGigE(this);
 }
+
+#ifdef WARPED
+warped::State* 
+NSGigE::allocateState() { return new SimState(); }
+#endif

@@ -45,6 +45,10 @@
 #include "dev/io_device.hh"
 #include "params/CpuLocalTimer.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 /** @file
  * This implements the cpu local timer from the Cortex-A9 MPCore
  * Technical Reference Manual rev r2p2 (ARM DDI 0407F)
@@ -189,6 +193,12 @@ class CpuLocalTimer : public BasicPioDevice
 
     virtual void serialize(std::ostream &os);
     virtual void unserialize(Checkpoint *cp, const std::string &section);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 

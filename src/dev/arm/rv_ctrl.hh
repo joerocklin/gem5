@@ -44,6 +44,10 @@
 #include "dev/io_device.hh"
 #include "params/RealViewCtrl.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 /** @file
  * This implements the simple real view registers on a PBXA9
  */
@@ -135,6 +139,12 @@ class RealViewCtrl : public BasicPioDevice
 
     virtual void serialize(std::ostream &os);
     virtual void unserialize(Checkpoint *cp, const std::string &section);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 

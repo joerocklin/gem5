@@ -39,6 +39,10 @@
 #include "dev/uart.hh"
 #include "params/Uart8250.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 /* UART8250 Interrupt ID Register
  *  bit 0    Interrupt Pending 0 = true, 1 = false
  *  bit 2:1  ID of highest priority interrupt
@@ -115,6 +119,11 @@ class Uart8250 : public Uart
 
     virtual void serialize(std::ostream &os);
     virtual void unserialize(Checkpoint *cp, const std::string &section);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
 
 };
 

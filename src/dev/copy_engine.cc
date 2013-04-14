@@ -57,6 +57,10 @@
 #include "sim/stats.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace CopyEngineReg;
 
 CopyEngine::CopyEngine(const Params *p)
@@ -780,3 +784,8 @@ CopyEngineParams::create()
 {
     return new CopyEngine(this);
 }
+
+#ifdef WARPED
+warped::State* 
+CopyEngine::allocateState() { return new SimState(); }
+#endif

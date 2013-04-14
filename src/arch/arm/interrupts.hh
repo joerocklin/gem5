@@ -52,6 +52,10 @@
 #include "params/ArmInterrupts.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 namespace ArmISA
 {
 
@@ -193,6 +197,12 @@ class Interrupts : public SimObject
         UNSERIALIZE_ARRAY(interrupts, NumInterruptTypes);
         UNSERIALIZE_SCALAR(intStatus);
     }
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 } // namespace ARM_ISA
 

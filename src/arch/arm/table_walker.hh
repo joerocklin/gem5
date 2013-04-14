@@ -51,6 +51,10 @@
 #include "sim/eventq.hh"
 #include "sim/fault_fwd.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class ThreadContext;
 
 namespace ArmISA {
@@ -424,6 +428,12 @@ class TableWalker : public MemObject
     EventWrapper<TableWalker, &TableWalker::processWalkWrapper> doProcessEvent;
 
     void nextWalk(ThreadContext *tc);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 

@@ -41,6 +41,10 @@
 #include "dev/pcireg.h"
 #include "params/PciConfigAll.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 /**
  * PCI Config Space
  * All of PCI config space needs to return -1 on Tsunami, except
@@ -83,6 +87,11 @@ class PciConfigAll : public PioDevice
 
   private:
     Addr pioAddr;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
 
 };
 

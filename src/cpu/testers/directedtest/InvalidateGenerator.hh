@@ -40,6 +40,10 @@
 #include "mem/protocol/InvalidateGeneratorStatus.hh"
 #include "params/InvalidateGenerator.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class InvalidateGenerator : public DirectedGenerator 
 {
   public:
@@ -57,6 +61,12 @@ class InvalidateGenerator : public DirectedGenerator
     uint32_t m_active_read_node;
     uint32_t m_active_inv_node;
     uint32_t m_addr_increment_size;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif //__CPU_DIRECTEDTEST_INVALIDATEGENERATOR_HH__

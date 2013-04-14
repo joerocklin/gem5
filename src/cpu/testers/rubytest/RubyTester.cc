@@ -49,6 +49,10 @@
 #include "sim/sim_exit.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 RubyTester::RubyTester(const Params *p)
   : MemObject(p), checkStartEvent(this),
     _masterId(p->system->getMasterId(name())),
@@ -248,3 +252,8 @@ RubyTesterParams::create()
 {
     return new RubyTester(this);
 }
+
+#ifdef WARPED
+warped::State* 
+RubyTester::allocateState() { return new SimState(); }
+#endif

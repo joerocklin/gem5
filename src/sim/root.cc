@@ -38,6 +38,10 @@
 #include "sim/full_system.hh"
 #include "sim/root.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 Root *Root::_root = NULL;
 
 /*
@@ -179,3 +183,8 @@ RootParams::create()
 
     return new Root(this);
 }
+
+#ifdef WARPED
+warped::State* 
+Root::allocateState() { return new SimState(); }
+#endif

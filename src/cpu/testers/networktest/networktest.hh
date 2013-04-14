@@ -42,6 +42,10 @@
 #include "sim/sim_object.hh"
 #include "sim/stats.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class Packet;
 class NetworkTest : public MemObject
 {
@@ -136,6 +140,12 @@ class NetworkTest : public MemObject
     void doRetry();
 
     friend class MemCompleteEvent;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif // __CPU_NETWORKTEST_NETWORKTEST_HH__

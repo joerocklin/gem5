@@ -52,6 +52,10 @@
 #include "dev/platform.hh"
 #include "params/RealView.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class BaseGic;
 class IdeController;
 class System;
@@ -119,6 +123,12 @@ class RealView : public Platform
      * Calculate the address for a memory location on the PCI bus.
      */
     virtual Addr calcPciMemAddr(Addr addr);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif // __DEV_ARM_RealView_HH__

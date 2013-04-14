@@ -49,6 +49,10 @@
 #include "mem/physical.hh"
 #include "mem/fs_translating_port_proxy.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 using namespace Linux;
 
@@ -119,3 +123,8 @@ ArmSystemParams::create()
 {
     return new ArmSystem(this);
 }
+
+#ifdef WARPED
+warped::State* 
+ArmSystem::allocateState() { return new SimState(); }
+#endif

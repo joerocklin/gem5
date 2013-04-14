@@ -32,6 +32,10 @@
 #include "cpu/testers/directedtest/SeriesRequestGenerator.hh"
 #include "debug/DirectedTest.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 SeriesRequestGenerator::SeriesRequestGenerator(const Params *p)
     : DirectedGenerator(p),
       m_addr_increment_size(p->addr_increment_size),
@@ -113,3 +117,7 @@ SeriesRequestGeneratorParams::create()
 {
     return new SeriesRequestGenerator(this);
 }
+
+#ifdef WARPED
+warped::State* SeriesRequestGenerator::allocateState() { return new SimState(); }
+#endif

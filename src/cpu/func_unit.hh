@@ -40,6 +40,10 @@
 #include "params/OpDesc.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 ////////////////////////////////////////////////////////////////////////////
 //
 //  Structures used ONLY during the initialization phase...
@@ -57,6 +61,11 @@ class OpDesc : public SimObject
     OpDesc(const OpDescParams *p)
         : SimObject(p), opClass(p->opClass), opLat(p->opLat),
           issueLat(p->issueLat) {};
+
+#ifdef WARPED
+    warped::State* allocateState();
+#endif
+
 };
 
 class FUDesc : public SimObject
@@ -67,6 +76,11 @@ class FUDesc : public SimObject
 
     FUDesc(const FUDescParams *p)
         : SimObject(p), opDescList(p->opList), number(p->count) {};
+
+#ifdef WARPED
+    warped::State* allocateState();
+#endif
+
 };
 
 typedef std::vector<OpDesc *>::const_iterator OPDDiterator;

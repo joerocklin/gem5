@@ -38,6 +38,10 @@
 #include "cpu/inteltrace.hh"
 #include "cpu/static_inst.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 using namespace TheISA;
 
@@ -68,3 +72,11 @@ IntelTraceParams::create()
 {
     return new Trace::IntelTrace(this);
 }
+
+    
+#ifdef WARPED
+namespace Trace {
+warped::State* 
+  Trace::IntelTrace::allocateState() { return new SimState(); }
+} //namespace Trace
+#endif

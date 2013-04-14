@@ -50,6 +50,10 @@
 #include "mem/packet.hh"
 #include "mem/packet_access.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 Pl050::Pl050(const Params *p)
     : AmbaIntDevice(p), control(0), status(0x43), clkdiv(0), interrupts(0),
       rawInterrupts(0), ackNext(false), shiftDown(false), vnc(p->vnc),
@@ -369,3 +373,8 @@ Pl050Params::create()
 {
     return new Pl050(this);
 }
+
+#ifdef WARPED
+warped::State* 
+Pl050::allocateState() { return new SimState(); }
+#endif

@@ -42,11 +42,14 @@
 #include "sim/sim_object.hh"
 #include "sim/stats.hh"
 
-#include <warped/SimulationManager.h>
-#include <warped/IntVTime.h>
+#ifdef WARPED
+# include <warped/SimulationManager.h>
+# include <warped/IntVTime.h>
+# include "sim/warped_sim_state.hh"
+#endif
 
 using namespace std;
-using namespace warped
+using namespace warped;
 
 ////////////////////////////////////////////////////////////////////////
 //

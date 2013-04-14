@@ -40,6 +40,10 @@
 #include "mem/protocol/SeriesRequestGeneratorStatus.hh"
 #include "params/SeriesRequestGenerator.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class SeriesRequestGenerator : public DirectedGenerator 
 {
   public:
@@ -57,6 +61,11 @@ class SeriesRequestGenerator : public DirectedGenerator
     uint32_t m_active_node;
     uint32_t m_addr_increment_size;
     uint32_t m_percent_writes;
+
+#ifdef WARPED
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif //__CPU_DIRECTEDTEST_SERIESREQUESTGENERATOR_HH__

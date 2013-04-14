@@ -35,6 +35,10 @@
 #include "cpu/pred/bpred_unit_impl.hh"
 #include "cpu/pred/tournament.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 BPredUnit *
 BranchPredictorParams::create()
 {
@@ -47,3 +51,8 @@ BranchPredictorParams::create()
         fatal("Invalid BP selected!");
     }
 }
+
+#ifdef WARPED
+warped::State* 
+BPredUnit::allocateState() { return new SimState(); }
+#endif

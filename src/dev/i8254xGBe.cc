@@ -53,6 +53,10 @@
 #include "sim/stats.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace iGbReg;
 using namespace Net;
 
@@ -2566,3 +2570,8 @@ IGbEParams::create()
 {
     return new IGbE(this);
 }
+
+#ifdef WARPED
+warped::State* 
+IGbE::allocateState() { return new SimState(); }
+#endif

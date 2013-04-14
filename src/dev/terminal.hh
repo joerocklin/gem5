@@ -45,6 +45,10 @@
 #include "params/Terminal.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class TerminalListener;
 class Uart;
 
@@ -141,6 +145,12 @@ class Terminal : public SimObject
 
     // Ask the terminal if data is available
     bool dataAvailable() { return !rxbuf.empty(); }
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif // __DEV_TERMINAL_HH__

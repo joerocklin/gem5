@@ -1,4 +1,4 @@
-#include "sim_state.h"
+#include "sim/warped_sim_state.hh"
 
 #include <warped/warped.h> // for ASSERT
 
@@ -12,5 +12,5 @@ unsigned int SimState::getStateSize() const {
 
 void SimState::copyState(const State* state) {
   ASSERT( state != 0 );
-  const SimState *myState = dynamic_cast<const SimState *>(state);
+  //const SimState *myState = dynamic_cast<const SimState *>(state);
 }

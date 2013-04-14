@@ -39,6 +39,10 @@
 #include "debug/IntrControl.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 
 IntrControl::IntrControl(const Params *p)
@@ -68,3 +72,7 @@ IntrControlParams::create()
 {
     return new IntrControl(this);
 }
+
+#ifdef WARPED
+    warped::State* IntrControl::allocateState() { return new SimState(); }
+#endif

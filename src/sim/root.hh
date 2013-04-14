@@ -46,6 +46,10 @@
 #include "sim/eventq.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class Root : public SimObject
 {
   private:
@@ -114,6 +118,11 @@ class Root : public SimObject
 
     virtual void serialize(std::ostream &os);
     virtual void unserialize(Checkpoint *cp, const std::string &section);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
 
 };
 

@@ -52,6 +52,10 @@
 #include "mem/packet.hh"
 #include "mem/packet_access.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 Pl390::Pl390(const Params *p)
     : BaseGic(p), distAddr(p->dist_addr),
       cpuAddr(p->cpu_addr), distPioDelay(p->dist_pio_delay),
@@ -840,3 +844,8 @@ Pl390::driveLegFIQ(bool state)
         platform->intrctrl->post(0, ArmISA::INT_FIQ, 0);
     else platform->intrctrl->clear(0, ArmISA::INT_FIQ, 0);
 }
+
+#ifdef WARPED
+warped::State* 
+Pl390::allocateState() { return new SimState(); }
+#endif

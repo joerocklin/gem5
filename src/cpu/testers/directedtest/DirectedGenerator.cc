@@ -30,6 +30,10 @@
 #include "cpu/testers/directedtest/DirectedGenerator.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 DirectedGenerator::DirectedGenerator(const Params *p)
     : SimObject(p),
       masterId(p->system->getMasterId(name()))
@@ -44,3 +48,7 @@ DirectedGenerator::setDirectedTester(RubyDirectedTester* directed_tester)
     assert(m_directed_tester == NULL);
     m_directed_tester = directed_tester;
 }
+
+#ifdef WARPED
+warped::State* DirectedGenerator::allocateState() { return new SimState(); }
+#endif

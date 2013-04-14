@@ -44,6 +44,10 @@
 #include "mem/packet_access.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 A9SCU::A9SCU(Params *p)
     : BasicPioDevice(p)
 {
@@ -100,3 +104,8 @@ A9SCUParams::create()
 {
     return new A9SCU(this);
 }
+
+#ifdef WARPED
+warped::State* 
+A9SCU::allocateState() { return new SimState(); }
+#endif

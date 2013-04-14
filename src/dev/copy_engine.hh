@@ -58,6 +58,10 @@
 #include "sim/drain.hh"
 #include "sim/eventq.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class CopyEngine : public PciDev
 {
     class CopyEngineChannel : public Drainable
@@ -210,6 +214,12 @@ class CopyEngine : public PciDev
 
     unsigned int drain(DrainManager *drainManger);
     void drainResume();
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif //__DEV_COPY_ENGINE_HH__

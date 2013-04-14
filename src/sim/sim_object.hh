@@ -54,6 +54,7 @@
 # include <warped/SimulationObject.h>
 # include <warped/State.h>
 # include <warped/Event.h>
+# include "sim/warped_sim_state.hh"
 #endif
 
 class BaseCPU;
@@ -112,7 +113,7 @@ public:
   // name is for gem5 compatibility
   virtual const std::string name() const { return params()->name; }
   
-  warped::State* AllocateState();
+  warped::State* allocateState();
   void deallocateState( const warped::State* state );
   void reclaimEvent( const Event* event );
   

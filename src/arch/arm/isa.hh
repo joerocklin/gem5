@@ -49,6 +49,10 @@
 #include "debug/Checkpoint.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 struct ArmISAParams;
 class ThreadContext;
 class Checkpoint;
@@ -203,6 +207,11 @@ namespace ArmISA
         const Params *params() const;
 
         ISA(Params *p);
+    
+    #ifdef WARPED
+      public:
+        warped::State* allocateState();
+    #endif
     };
 }
 

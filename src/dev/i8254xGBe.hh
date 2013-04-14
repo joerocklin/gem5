@@ -51,6 +51,10 @@
 #include "params/IGbE.hh"
 #include "sim/eventq.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class IGbEInt;
 
 class IGbE : public EtherDevice
@@ -535,6 +539,11 @@ class IGbE : public EtherDevice
 
     unsigned int drain(DrainManager *dm);
     void drainResume();
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
 
 };
 

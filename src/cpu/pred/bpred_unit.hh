@@ -58,6 +58,10 @@
 #include "params/BranchPredictor.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 /**
  * Basically a wrapper class to hold both the branch predictor
  * and the BTB.
@@ -281,6 +285,12 @@ class BPredUnit : public SimObject
     Stats::Scalar usedRAS;
     /** Stat for number of times the RAS is incorrect. */
     Stats::Scalar RASIncorrect;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif // __CPU_PRED_BPRED_UNIT_HH__

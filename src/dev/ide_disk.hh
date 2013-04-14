@@ -44,6 +44,10 @@
 #include "params/IdeDisk.hh"
 #include "sim/eventq.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class ChunkGenerator;
 
 #define DMA_BACKOFF_PERIOD      200
@@ -362,6 +366,12 @@ class IdeDisk : public SimObject
      * @param section The section name describing this object.
      */
     void unserialize(Checkpoint *cp, const std::string &section);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 

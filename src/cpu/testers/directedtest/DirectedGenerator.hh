@@ -34,6 +34,10 @@
 #include "params/DirectedGenerator.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class DirectedGenerator : public SimObject 
 {
   public:
@@ -51,6 +55,11 @@ class DirectedGenerator : public SimObject
     int m_num_cpus;
     MasterID masterId;
     RubyDirectedTester* m_directed_tester;
+
+#ifdef WARPED
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif //__CPU_DIRECTEDTEST_DIRECTEDGENERATOR_HH__

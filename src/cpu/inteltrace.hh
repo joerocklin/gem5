@@ -41,6 +41,10 @@
 #include "params/IntelTrace.hh"
 #include "sim/insttracer.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 namespace Trace {
 
 class IntelTraceRecord : public InstRecord
@@ -81,6 +85,10 @@ class IntelTrace : public InstTracer
         return new IntelTraceRecord(when, tc,
                 staticInst, pc, tc->misspeculating(), macroStaticInst);
     }
+
+#ifdef WARPED
+    warped::State* allocateState();
+#endif
 };
 
 } // namespace Trace

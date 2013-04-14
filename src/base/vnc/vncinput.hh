@@ -250,9 +250,9 @@ class VncInput : public SimObject
 
     /** Captures the current frame buffer to a file */
     void captureFrameBuffer();
-    
+
 #ifdef WARPED
-    warped::State* allocateState() { return new SimState(); }
+    warped::State* allocateState();
 #endif
     
 };

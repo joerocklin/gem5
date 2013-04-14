@@ -45,6 +45,10 @@
 #include "params/RubyController.hh"
 #include "sim/clocked_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class Network;
 
 class AbstractController : public ClockedObject, public Consumer
@@ -58,7 +62,10 @@ class AbstractController : public ClockedObject, public Consumer
     virtual const int & getVersion() const = 0;
     virtual const std::string toString() const = 0;  // returns text version of
                                                      // controller type
+#ifndef WARPED
     virtual const std::string getName() const = 0;   // return instance name
+#endif
+    
     virtual void blockOnQueue(Address, MessageBuffer*) = 0;
     virtual void unblock(Address) = 0;
     virtual void initNetworkPtr(Network* net_ptr) = 0;
@@ -154,6 +161,11 @@ class AbstractController : public ClockedObject, public Consumer
     //! cares for
     Histogram m_delayHistogram;
     std::vector<Histogram> m_delayVCHistogram;
+
+#ifdef WARPED
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif // __MEM_RUBY_SLICC_INTERFACE_ABSTRACTCONTROLLER_HH__

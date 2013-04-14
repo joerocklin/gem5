@@ -33,6 +33,10 @@
 #include "base/misc.hh"
 #include "cpu/func_unit.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 
 
@@ -129,3 +133,8 @@ FUDescParams::create()
 {
     return new FUDesc(this);
 }
+
+#ifdef WARPED
+warped::State* OpDesc::allocateState() { return new SimState(); }
+warped::State* FUDesc::allocateState() { return new SimState(); }
+#endif

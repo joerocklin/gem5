@@ -47,6 +47,10 @@
 #include "params/NSGigE.hh"
 #include "sim/eventq.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 // Hash filtering constants
 const uint16_t FHASH_ADDR  = 0x100;
 const uint16_t FHASH_SIZE  = 0x100;
@@ -370,6 +374,12 @@ class NSGigE : public EtherDevBase
     virtual void unserialize(Checkpoint *cp, const std::string &section);
 
     void drainResume();
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 /*

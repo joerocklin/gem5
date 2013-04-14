@@ -52,6 +52,10 @@
 #include "params/Pl111.hh"
 #include "sim/serialize.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class VncInput;
 class Bitmap;
 
@@ -371,6 +375,12 @@ class Pl111: public AmbaDmaDevice
      * @return a list of non-overlapping address ranges
      */
     AddrRangeList getAddrRanges() const;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif

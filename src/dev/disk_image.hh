@@ -43,6 +43,10 @@
 #include "params/RawDiskImage.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 #define SectorSize (512)
 
 /**
@@ -89,6 +93,12 @@ class RawDiskImage : public DiskImage
 
     virtual std::streampos read(uint8_t *data, std::streampos offset) const;
     virtual std::streampos write(const uint8_t *data, std::streampos offset);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 /**
@@ -135,6 +145,12 @@ class CowDiskImage : public DiskImage
 
     virtual std::streampos read(uint8_t *data, std::streampos offset) const;
     virtual std::streampos write(const uint8_t *data, std::streampos offset);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 void SafeRead(std::ifstream &stream, void *data, int count);

@@ -51,6 +51,10 @@
 #include "sim/sim_object.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class ArmSystem : public System
 {
   protected:
@@ -101,6 +105,12 @@ class ArmSystem : public System
 
     /** true if this a multiprocessor system */
     bool multiProc;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif

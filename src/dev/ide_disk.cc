@@ -50,6 +50,10 @@
 #include "sim/core.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 using namespace TheISA;
 
@@ -1136,3 +1140,8 @@ IdeDiskParams::create()
 {
     return new IdeDisk(this);
 }
+
+#ifdef WARPED
+warped::State* 
+IdeDisk::allocateState() { return new SimState(); }
+#endif

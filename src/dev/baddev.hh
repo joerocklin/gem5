@@ -39,6 +39,10 @@
 #include "dev/io_device.hh"
 #include "params/BadDevice.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 /**
  * BadDevice
  * This device just panics when accessed. It is supposed to warn
@@ -70,6 +74,12 @@ class BadDevice : public BasicPioDevice
 
     virtual Tick read(PacketPtr pkt);
     virtual Tick write(PacketPtr pkt);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif // __DEV_BADDEV_HH__

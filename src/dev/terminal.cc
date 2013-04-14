@@ -56,6 +56,10 @@
 #include "dev/terminal.hh"
 #include "dev/uart.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 
 
@@ -330,3 +334,8 @@ TerminalParams::create()
 {
     return new Terminal(this);
 }
+
+#ifdef WARPED
+warped::State* 
+Terminal::allocateState() { return new SimState(); }
+#endif

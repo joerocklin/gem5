@@ -45,6 +45,10 @@
 #include "cpu/o3/fu_pool.hh"
 #include "cpu/func_unit.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////
@@ -283,3 +287,7 @@ FUPoolParams::create()
 {
     return new FUPool(this);
 }
+
+#ifdef WARPED
+warped::State* FUPool::allocateState() { return new SimState(); }
+#endif

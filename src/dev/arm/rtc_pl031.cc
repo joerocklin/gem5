@@ -48,6 +48,10 @@
 #include "mem/packet.hh"
 #include "mem/packet_access.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 using namespace AmbaDev;
 
 PL031::PL031(Params *p)
@@ -249,3 +253,8 @@ PL031Params::create()
 {
     return new PL031(this);
 }
+
+#ifdef WARPED
+warped::State* 
+PL031::allocateState() { return new SimState(); }
+#endif

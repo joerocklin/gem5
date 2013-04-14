@@ -52,6 +52,10 @@
 #include "params/FUPool.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class FUDesc;
 class FuncUnit;
 
@@ -174,6 +178,11 @@ class FUPool : public SimObject
 
     /** Takes over from another CPU's thread. */
     void takeOverFrom() {};
+
+#ifdef WARPED
+    warped::State* allocateState();
+#endif
+
 };
 
 #endif // __CPU_O3_FU_POOL_HH__

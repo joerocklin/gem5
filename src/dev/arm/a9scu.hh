@@ -43,6 +43,10 @@
 #include "dev/io_device.hh"
 #include "params/A9SCU.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 /** @file
  * This defines the snoop control unit register on an A9
  */
@@ -77,6 +81,12 @@ class A9SCU : public BasicPioDevice
      * @param data the data
      */
     virtual Tick write(PacketPtr pkt);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+#endif
+
 };
 
 

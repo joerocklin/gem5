@@ -55,6 +55,10 @@
 #include "sim/fault_fwd.hh"
 #include "sim/tlb.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class ThreadContext;
 
 namespace ArmISA {
@@ -258,6 +262,11 @@ public:
         return dynamic_cast<const Params *>(_params);
     }
     inline void invalidateMiscReg() { miscRegValid = false; }
+
+#ifdef WARPED
+public:
+    warped::State* allocateState();
+#endif
 };
 
 } // namespace ArmISA
