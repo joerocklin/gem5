@@ -893,6 +893,12 @@ def makeEnv(label, objsfx, strip = False, **kwargs):
 
     new_env = env.Clone(OBJSUFFIX=objsfx, SHOBJSUFFIX=objsfx + 's')
     new_env.Label = label
+
+    if env['WARPED']:
+        new_env.Append(CPPDEFINES='WARPED')
+        new_env.Append(LIBPATH='/usr/local/lib')
+        new_env.Append(LIBS='warped')
+        
     new_env.Append(**kwargs)
 
     swig_env = new_env.Clone()
@@ -998,9 +1004,6 @@ def makeEnv(label, objsfx, strip = False, **kwargs):
             MakeAction('ln $SOURCE $TARGET', Transform("HARDLINK")))
 
     new_env.M5Binary = targets[0]
-
-    new_env.Append(LIBPATH='/usr/local/lib')
-    new_env.Append(LIBS='warped')
 
     envList.append(new_env)
 

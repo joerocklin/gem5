@@ -1045,11 +1045,12 @@ sticky_vars.AddVariables(
     BoolVariable('CP_ANNOTATE', 'Enable critical path annotation capability', False),
     EnumVariable('PROTOCOL', 'Coherence protocol for Ruby', 'None',
                   all_protocols),
+    BoolVariable('WARPED', 'Use the Warped Simulation Engine', False)
     )
 
 # These variables get exported to #defines in config/*.hh (see src/SConscript).
 export_vars += ['USE_FENV', 'SS_COMPATIBLE_FP', 'TARGET_ISA', 'CP_ANNOTATE',
-                'USE_POSIX_CLOCK', 'PROTOCOL', 'HAVE_PROTOBUF']
+                'USE_POSIX_CLOCK', 'PROTOCOL', 'HAVE_PROTOBUF', 'WARPED' ]
 
 ###################################################
 #

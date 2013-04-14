@@ -39,7 +39,6 @@ Source('arguments.cc')
 Source('async.cc')
 Source('core.cc')
 Source('debug.cc')
-Source('eventq.cc')
 Source('init.cc')
 Source('main.cc', main=True, skip_lib=True)
 Source('root.cc')
@@ -50,6 +49,12 @@ Source('sim_object.cc')
 Source('simulate.cc')
 Source('stat_control.cc')
 Source('syscall_emul.cc')
+
+if env['WARPED']:
+    Source('warped_eventq.cc')
+    Source('warped_sim_state.cc')
+else:
+    Source('eventq.cc')
 
 if env['TARGET_ISA'] != 'no':
     SimObject('Process.py')
