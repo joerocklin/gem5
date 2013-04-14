@@ -58,6 +58,10 @@
 #include "sim/full_system.hh"
 #include "sim/insttracer.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 struct BaseCPUParams;
 class BranchPred;
 class CheckerCPU;
@@ -443,6 +447,10 @@ class BaseCPU : public MemObject
     Stats::Scalar numCycles;
     Stats::Scalar numWorkItemsStarted;
     Stats::Scalar numWorkItemsCompleted;
+                                        
+#ifdef WARPED
+    warped::State* allocateState() { return new SimState(); }
+#endif
 };
 
 #endif // __CPU_BASE_HH__

@@ -49,12 +49,18 @@
 #include "sim/eventq_impl.hh"
 #include "sim/serialize.hh"
 
+#ifdef WARPED
+# include <warped/warped.h>
+# include <warped/SimulationObject.h>
+# include <warped/State.h>
+# include <warped/Event.h>
+#endif
+
 class BaseCPU;
 
 namespace gem5 {
   class Event;
 }
-
 /**
  * Abstract superclass for simulation objects.  Represents things that
  * correspond to physical components and can be specified via the
@@ -85,6 +91,115 @@ namespace gem5 {
  * SimObject.py). This has the effect of calling the method on the
  * parent node <i>before</i> its children.
  */
+#ifdef WARPED
+class SimObject : public warped::SimulationObject, public EventManager, public Drainable
+{
+protected:
+  /** Cached copy of the object parameters. */
+  const SimObjectParams *_params;
+  void nameOut(std::ostream &os);
+  void nameOut(std::ostream &os, const std::string &_name);
+  
+public:
+  typedef SimObjectParams Params;
+  const Params *params() const { return _params; }
+  
+  SimObject();
+  SimObject(const Params *_params);
+  
+  virtual ~SimObject() {}
+  
+  // name is for gem5 compatibility
+  virtual const std::string name() const { return params()->name; }
+  
+  warped::State* AllocateState();
+  void deallocateState( const warped::State* state );
+  void reclaimEvent( const Event* event );
+  
+  void initialize();
+  void executeProcess();
+  void finalize();
+  
+  // getName is for warped compatibility
+  const string &getName() const { return params()->name; }
+  const int getId() const { return this->id; }
+  
+    /**
+     * init() is called after all C++ SimObjects have been created and
+     * all ports are connected.  Initializations that are independent
+     * of unserialization but rely on a fully instantiated and
+     * connected SimObject graph should be done here.
+     */
+    virtual void init();
+
+    /**
+     * loadState() is called on each SimObject when restoring from a
+     * checkpoint.  The default implementation simply calls
+     * unserialize() if there is a corresponding section in the
+     * checkpoint.  However, objects can override loadState() to get
+     * other behaviors, e.g., doing other programmed initializations
+     * after unserialize(), or complaining if no checkpoint section is
+     * found.
+     *
+     * @param cp Checkpoint to restore the state from.
+     */
+    virtual void loadState(Checkpoint *cp);
+
+    /**
+     * initState() is called on each SimObject when *not* restoring
+     * from a checkpoint.  This provides a hook for state
+     * initializations that are only required for a "cold start".
+     */
+    virtual void initState();
+
+    /**
+     * Register statistics for this object.
+     */
+    virtual void regStats();
+
+    /**
+     * Reset statistics associated with this object.
+     */
+    virtual void resetStats();
+
+    /**
+     * startup() is the final initialization call before simulation.
+     * All state is initialized (including unserialized state, if any,
+     * such as the curTick() value), so this is the appropriate place to
+     * schedule initial event(s) for objects that need them.
+     */
+    virtual void startup();
+
+    /**
+     * Provide a default implementation of the drain interface that
+     * simply returns 0 (draining completed) and sets the drain state
+     * to Drained.
+     */
+    unsigned int drain(DrainManager *drainManger);
+
+    /**
+     * Serialize all SimObjects in the system.
+     */
+    static void serializeAll(std::ostream &os);
+
+#ifdef DEBUG
+  public:
+    bool doDebugBreak;
+    static void debugObjectBreak(const std::string &objs);
+#endif
+
+    /**
+     * Find the SimObject with the given name and return a pointer to
+     * it.  Primarily used for interactive debugging.  Argument is
+     * char* rather than std::string to make it callable from gdb.
+     */
+    static SimObject *find(const char *name);
+  
+private:
+  int id;
+};
+
+#else
 class SimObject : public EventManager, public gem5::Serializable, public Drainable
 {
   private:
@@ -178,6 +293,8 @@ class SimObject : public EventManager, public gem5::Serializable, public Drainab
      */
     static SimObject *find(const char *name);
 };
+
+#endif //ifdef WARPED
 
 #ifdef DEBUG
 void debugObjectBreak(const char *objs);

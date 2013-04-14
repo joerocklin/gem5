@@ -53,6 +53,10 @@
 #include "params/MemObject.hh"
 #include "sim/clocked_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 /**
  * The MemObject class extends the ClockedObject with accessor functions
  * to get its master and slave ports.
@@ -91,6 +95,11 @@ class MemObject : public ClockedObject
      */
     virtual BaseSlavePort& getSlavePort(const std::string& if_name,
                                         PortID idx = InvalidPortID);
+                                        
+#ifdef WARPED
+    warped::State* allocateState() { return new SimState(); }
+#endif
+    
 };
 
 #endif //__MEM_MEM_OBJECT_HH__

@@ -162,18 +162,18 @@ parseParam(const string &s, string &value)
     return true;
 }
 
-int Serializable::ckptMaxCount = 0;
-int Serializable::ckptCount = 0;
-int Serializable::ckptPrevCount = -1;
+int gem5::Serializable::ckptMaxCount = 0;
+int gem5::Serializable::ckptCount = 0;
+int gem5::Serializable::ckptPrevCount = -1;
 
 void
-Serializable::nameOut(ostream &os)
+gem5::Serializable::nameOut(ostream &os)
 {
     os << "\n[" << name() << "]\n";
 }
 
 void
-Serializable::nameOut(ostream &os, const string &_name)
+gem5::Serializable::nameOut(ostream &os, const string &_name)
 {
     os << "\n[" << _name << "]\n";
 }
@@ -434,7 +434,7 @@ INSTANTIATE_PARAM_TEMPLATES(string)
 
 /// Container for serializing global variables (not associated with
 /// any serialized object).
-class Globals : public Serializable
+class Globals : public gem5::Serializable
 {
   public:
     const string name() const;
@@ -471,26 +471,26 @@ Globals::unserialize(Checkpoint *cp, const std::string &section)
     mainEventQueue.unserialize(cp, "MainEventQueue");
 }
 
-Serializable::Serializable()
+gem5::Serializable::Serializable()
 {
 }
 
-Serializable::~Serializable()
-{
-}
-
-void
-Serializable::serialize(ostream &os)
+gem5::Serializable::~Serializable()
 {
 }
 
 void
-Serializable::unserialize(Checkpoint *cp, const string &section)
+gem5::Serializable::serialize(ostream &os)
 {
 }
 
 void
-Serializable::serializeAll(const string &cpt_dir)
+gem5::Serializable::unserialize(Checkpoint *cp, const string &section)
+{
+}
+
+void
+gem5::Serializable::serializeAll(const string &cpt_dir)
 {
     string dir = Checkpoint::setDir(cpt_dir);
     if (mkdir(dir.c_str(), 0775) == -1 && errno != EEXIST)
@@ -508,7 +508,7 @@ Serializable::serializeAll(const string &cpt_dir)
 }
 
 void
-Serializable::unserializeGlobals(Checkpoint *cp)
+gem5::Serializable::unserializeGlobals(Checkpoint *cp)
 {
   globals.unserialize(cp, globals.name());
 }
@@ -516,7 +516,7 @@ Serializable::unserializeGlobals(Checkpoint *cp)
 void
 debug_serialize(const string &cpt_dir)
 {
-    Serializable::serializeAll(cpt_dir);
+    gem5::Serializable::serializeAll(cpt_dir);
 }
 
 
@@ -548,7 +548,7 @@ SerializableClass::SerializableClass(const string &className,
 
 //
 //
-Serializable *
+gem5::Serializable *
 SerializableClass::createObject(Checkpoint *cp, const string &section)
 {
     string className;
@@ -565,7 +565,7 @@ SerializableClass::createObject(Checkpoint *cp, const string &section)
               className);
     }
 
-    Serializable *object = createFunc(cp, section);
+    gem5::Serializable *object = createFunc(cp, section);
 
     assert(object != NULL);
 
@@ -573,10 +573,10 @@ SerializableClass::createObject(Checkpoint *cp, const string &section)
 }
 
 
-Serializable *
-Serializable::create(Checkpoint *cp, const string &section)
+gem5::Serializable *
+gem5::Serializable::create(Checkpoint *cp, const string &section)
 {
-    Serializable *object = SerializableClass::createObject(cp, section);
+    gem5::Serializable *object = SerializableClass::createObject(cp, section);
     object->unserialize(cp, section);
     return object;
 }

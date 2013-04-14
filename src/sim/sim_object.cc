@@ -42,8 +42,11 @@
 #include "sim/sim_object.hh"
 #include "sim/stats.hh"
 
-using namespace std;
+#include <warped/SimulationManager.h>
+#include <warped/IntVTime.h>
 
+using namespace std;
+using namespace warped
 
 ////////////////////////////////////////////////////////////////////////
 //
@@ -51,6 +54,24 @@ using namespace std;
 //
 ////////////////////////////////////////////////////////////////////////
 
+#ifdef WARPED
+warped::State* SimObject::allocateState() {
+  return new SimState();
+}
+
+void
+SimObject::nameOut(ostream &os)
+{
+    os << "\n[" << name() << "]\n";
+}
+
+void
+SimObject::nameOut(ostream &os, const string &_name)
+{
+    os << "\n[" << _name << "]\n";
+}
+
+#else
 //
 // static list of all SimObjects, used for initialization etc.
 //
@@ -171,3 +192,4 @@ SimObject::find(const char *name)
 
     return NULL;
 }
+#endif

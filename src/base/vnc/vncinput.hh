@@ -52,6 +52,10 @@
 #include "params/VncInput.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 /**
  * A device that expects to receive input from the vnc server should derrive
  * (through mulitple inheritence if necessary from VncKeyboard or VncMouse
@@ -246,5 +250,10 @@ class VncInput : public SimObject
 
     /** Captures the current frame buffer to a file */
     void captureFrameBuffer();
+    
+#ifdef WARPED
+    warped::State* allocateState() { return new SimState(); }
+#endif
+    
 };
 #endif

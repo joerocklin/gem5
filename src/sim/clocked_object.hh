@@ -51,6 +51,10 @@
 #include "sim/core.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 /**
  * The ClockedObject class extends the SimObject with a clock and
  * accessor functions to relate ticks to the cycles of the object.
@@ -186,6 +190,11 @@ class ClockedObject : public SimObject
 
     inline Cycles ticksToCycles(Tick t) const
     { return Cycles(t / clock); }
+    
+#ifdef WARPED
+    warped::State* allocateState() { return new SimState(); }
+#endif
+    
 
 };
 
