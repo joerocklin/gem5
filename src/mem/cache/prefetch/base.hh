@@ -55,6 +55,10 @@
 #include "params/BaseCache.hh"
 #include "sim/clocked_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class BaseCache;
 
 class BasePrefetcher : public ClockedObject
@@ -169,6 +173,17 @@ class BasePrefetcher : public ClockedObject
     {
         return dynamic_cast<const Params *>(_params);
     }
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+  
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
 
 };
 #endif //__MEM_CACHE_PREFETCH_BASE_PREFETCHER_HH__

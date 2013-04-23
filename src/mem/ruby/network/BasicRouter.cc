@@ -50,3 +50,41 @@ BasicRouterParams::create()
 {
     return new BasicRouter(this);
 }
+
+#ifdef WARPED
+warped::State*
+BasicRouter::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+BasicRouter::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+BasicRouter::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+BasicRouter::initialize() {
+  method_with_id(this->id);
+}
+
+void
+BasicRouter::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+BasicRouter::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

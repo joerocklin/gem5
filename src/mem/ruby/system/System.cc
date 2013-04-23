@@ -635,3 +635,41 @@ RubyDumpStatsCallback::process()
 {
     ruby_system->printStats(*os);
 }
+
+#ifdef WARPED
+warped::State*
+RubySystem::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+RubySystem::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+RubySystem::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+RubySystem::initialize() {
+  method_with_id(this->id);
+}
+
+void
+RubySystem::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+RubySystem::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

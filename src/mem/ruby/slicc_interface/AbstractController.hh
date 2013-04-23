@@ -163,7 +163,14 @@ class AbstractController : public ClockedObject, public Consumer
     std::vector<Histogram> m_delayVCHistogram;
 
 #ifdef WARPED
+  public:
     warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
 #endif
 
 };

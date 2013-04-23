@@ -47,3 +47,41 @@ MemoryControl::recordRequestType(MemoryControlRequestType request) {
     DPRINTF(RubyStats, "Recorded request: %s\n",
             MemoryControlRequestType_to_string(request));
 }
+
+#ifdef WARPED
+warped::State*
+MemoryControl::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+MemoryControl::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+MemoryControl::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+MemoryControl::initialize() {
+  method_with_id(this->id);
+}
+
+void
+MemoryControl::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+MemoryControl::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

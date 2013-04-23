@@ -47,6 +47,10 @@
 #include "mem/ruby/network/BasicRouter.hh"
 #include "params/Switch.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class MessageBuffer;
 class PerfectSwitch;
 class NetDest;
@@ -88,6 +92,18 @@ class Switch : public BasicRouter
     SimpleNetwork* m_network_ptr;
     std::vector<Throttle*> m_throttles;
     std::vector<MessageBuffer*> m_buffers_to_free;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 inline std::ostream&

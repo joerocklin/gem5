@@ -41,6 +41,10 @@
 #include "params/NetworkLink.hh"
 #include "sim/clocked_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class GarnetNetwork;
 
 class NetworkLink : public ClockedObject, public FlexibleConsumer
@@ -92,6 +96,18 @@ class NetworkLink : public ClockedObject, public FlexibleConsumer
     FlexibleConsumer *link_consumer;
     FlexibleConsumer *link_source;
     flitBuffer *link_srcQueue;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 #endif // __MEM_RUBY_NETWORK_GARNET_FLEXIBLE_PIPELINE_NETWORK_LINK_HH__

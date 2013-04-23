@@ -40,6 +40,10 @@
 #include "mem/ruby/system/RubyPort.hh"
 #include "params/RubySequencer.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class DataBlock;
 
 struct SequencerRequest
@@ -173,6 +177,18 @@ class Sequencer : public RubyPort
     };
 
     SequencerWakeupEvent deadlockCheckEvent;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 inline std::ostream&

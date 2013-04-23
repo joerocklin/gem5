@@ -134,3 +134,41 @@ StridePrefetcherParams::create()
 {
    return new StridePrefetcher(this);
 }
+
+#ifdef WARPED
+warped::State* 
+StridePrefetcher::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void 
+StridePrefetcher::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+  
+  delete state;
+}
+    
+void
+StridePrefetcher::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+  
+  delete event;
+}
+  
+void
+StridePrefetcher::initialize() {
+  method_with_id(this->id);
+}
+    
+void 
+StridePrefetcher::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void 
+StridePrefetcher::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

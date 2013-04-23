@@ -71,3 +71,77 @@ SimpleIntLinkParams::create()
 {
     return new SimpleIntLink(this);
 }
+
+#ifdef WARPED
+warped::State*
+SimpleIntLink::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+SimpleIntLink::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+SimpleIntLink::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+SimpleIntLink::initialize() {
+  method_with_id(this->id);
+}
+
+void
+SimpleIntLink::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+SimpleIntLink::finalize() {
+  method_with_id(this->id);
+}
+
+warped::State*
+SimpleExtLink::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+SimpleExtLink::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+SimpleExtLink::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+SimpleExtLink::initialize() {
+  method_with_id(this->id);
+}
+
+void
+SimpleExtLink::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+SimpleExtLink::finalize() {
+  method_with_id(this->id);
+}
+
+#endif
+

@@ -301,3 +301,41 @@ GarnetNetworkParams::create()
 {
     return new GarnetNetwork(this);
 }
+
+#ifdef WARPED
+warped::State*
+GarnetNetwork::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+GarnetNetwork::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+GarnetNetwork::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+GarnetNetwork::initialize() {
+  method_with_id(this->id);
+}
+
+void
+GarnetNetwork::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+GarnetNetwork::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

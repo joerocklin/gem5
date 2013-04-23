@@ -751,3 +751,41 @@ Sequencer::evictionCallback(const Address& address)
 {
     ruby_eviction_callback(address);
 }
+
+#ifdef WARPED
+warped::State*
+Sequencer::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+Sequencer::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+Sequencer::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+Sequencer::initialize() {
+  method_with_id(this->id);
+}
+
+void
+Sequencer::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+Sequencer::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

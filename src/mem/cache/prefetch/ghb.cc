@@ -73,3 +73,41 @@ GHBPrefetcherParams::create()
 {
    return new GHBPrefetcher(this);
 }
+
+#ifdef WARPED
+warped::State* 
+GHBPrefetcher::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void 
+GHBPrefetcher::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+  
+  delete state;
+}
+    
+void
+GHBPrefetcher::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+  
+  delete event;
+}
+  
+void
+GHBPrefetcher::initialize() {
+  method_with_id(this->id);
+}
+    
+void 
+GHBPrefetcher::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void 
+GHBPrefetcher::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

@@ -81,3 +81,77 @@ GarnetExtLink_dParams::create()
 {
     return new GarnetExtLink_d(this);
 }
+
+#ifdef WARPED
+warped::State*
+GarnetIntLink_d::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+GarnetIntLink_d::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+GarnetIntLink_d::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+GarnetIntLink_d::initialize() {
+  method_with_id(this->id);
+}
+
+void
+GarnetIntLink_d::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+GarnetIntLink_d::finalize() {
+  method_with_id(this->id);
+}
+
+warped::State*
+GarnetExtLink_d::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+GarnetExtLink_d::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+GarnetExtLink_d::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+GarnetExtLink_d::initialize() {
+  method_with_id(this->id);
+}
+
+void
+GarnetExtLink_d::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+GarnetExtLink_d::finalize() {
+  method_with_id(this->id);
+}
+
+#endif
+

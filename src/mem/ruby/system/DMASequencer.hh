@@ -36,6 +36,10 @@
 #include "mem/ruby/system/RubyPort.hh"
 #include "params/DMASequencer.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 struct DMARequest
 {
     uint64_t start_paddr;
@@ -73,6 +77,18 @@ class DMASequencer : public RubyPort
     bool m_is_busy;
     uint64_t m_data_block_mask;
     DMARequest active_request;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 #endif // __MEM_RUBY_SYSTEM_DMASEQUENCER_HH__

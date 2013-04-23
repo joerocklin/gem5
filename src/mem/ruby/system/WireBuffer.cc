@@ -166,3 +166,41 @@ RubyWireBufferParams::create()
     return new WireBuffer(this);
 }
 
+
+#ifdef WARPED
+warped::State*
+WireBuffer::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+WireBuffer::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+WireBuffer::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+WireBuffer::initialize() {
+  method_with_id(this->id);
+}
+
+void
+WireBuffer::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+WireBuffer::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

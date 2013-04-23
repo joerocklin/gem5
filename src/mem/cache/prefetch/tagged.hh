@@ -50,6 +50,18 @@ class TaggedPrefetcher : public BasePrefetcher
 
     void calculatePrefetch(PacketPtr &pkt, std::list<Addr> &addresses,
                            std::list<Cycles> &delays);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+  
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 #endif // __MEM_CACHE_PREFETCH_TAGGED_PREFETCHER_HH__

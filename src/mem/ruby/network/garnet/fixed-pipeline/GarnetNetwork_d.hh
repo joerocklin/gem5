@@ -39,6 +39,10 @@
 #include "mem/ruby/network/Network.hh"
 #include "params/GarnetNetwork_d.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class FaultModel;
 class NetworkInterface_d;
 class MessageBuffer;
@@ -110,6 +114,18 @@ class GarnetNetwork_d : public BaseGarnetNetwork
 
     int m_buffers_per_data_vc;
     int m_buffers_per_ctrl_vc;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 inline std::ostream&

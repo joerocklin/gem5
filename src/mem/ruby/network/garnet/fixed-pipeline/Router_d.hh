@@ -41,6 +41,10 @@
 #include "mem/ruby/network/orion/NetworkPower.hh"
 #include "params/GarnetRouter_d.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class GarnetNetwork_d;
 class NetworkLink_d;
 class CreditLink_d;
@@ -128,6 +132,18 @@ class Router_d : public BasicRouter
     double m_power_dyn;
     double m_power_sta;
     double m_clk_power;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 #endif // __MEM_RUBY_NETWORK_GARNET_FIXED_PIPELINE_ROUTER_D_HH__

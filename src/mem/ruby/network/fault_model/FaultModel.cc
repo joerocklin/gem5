@@ -275,3 +275,41 @@ FaultModelParams::create()
 {
     return new FaultModel(this);
 }
+
+#ifdef WARPED
+warped::State*
+FaultModel::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+FaultModel::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+FaultModel::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+FaultModel::initialize() {
+  method_with_id(this->id);
+}
+
+void
+FaultModel::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+FaultModel::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

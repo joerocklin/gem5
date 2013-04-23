@@ -52,6 +52,10 @@
 #include "params/RubyNetwork.hh"
 #include "sim/clocked_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class NetDest;
 class MessageBuffer;
 class Throttle;
@@ -119,6 +123,18 @@ class Network : public ClockedObject
     Topology* m_topology_ptr;
     static uint32_t m_control_msg_size;
     static uint32_t m_data_msg_size;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 inline std::ostream&

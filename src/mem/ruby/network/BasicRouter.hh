@@ -36,6 +36,10 @@
 #include "params/BasicRouter.hh"
 #include "sim/clocked_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class BasicRouter : public ClockedObject
 {
   public:
@@ -54,6 +58,18 @@ class BasicRouter : public ClockedObject
     // ID in relation to other routers in the system
     //
     uint32_t m_id;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 inline std::ostream&

@@ -39,6 +39,10 @@
 #include "mem/ruby/network/Network.hh"
 #include "params/GarnetNetwork.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class NetworkInterface;
 class MessageBuffer;
 class Router;
@@ -102,6 +106,18 @@ class GarnetNetwork : public BaseGarnetNetwork
 
     int m_buffer_size;
     int m_number_of_pipe_stages;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 inline std::ostream&

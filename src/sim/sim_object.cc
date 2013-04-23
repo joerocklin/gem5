@@ -57,24 +57,6 @@ using namespace warped;
 //
 ////////////////////////////////////////////////////////////////////////
 
-#ifdef WARPED
-warped::State* SimObject::allocateState() {
-  return new SimState();
-}
-
-void
-SimObject::nameOut(ostream &os)
-{
-    os << "\n[" << name() << "]\n";
-}
-
-void
-SimObject::nameOut(ostream &os, const string &_name)
-{
-    os << "\n[" << _name << "]\n";
-}
-
-#else
 //
 // static list of all SimObjects, used for initialization etc.
 //
@@ -195,4 +177,3 @@ SimObject::find(const char *name)
 
     return NULL;
 }
-#endif

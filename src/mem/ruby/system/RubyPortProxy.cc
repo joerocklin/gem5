@@ -68,3 +68,40 @@ RubyPortProxyParams::create()
 {
     return new RubyPortProxy(this);
 }
+#ifdef WARPED
+warped::State*
+RubyPortProxy::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+RubyPortProxy::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+RubyPortProxy::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+RubyPortProxy::initialize() {
+  method_with_id(this->id);
+}
+
+void
+RubyPortProxy::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+RubyPortProxy::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

@@ -362,3 +362,41 @@ SimpleNetwork::functionalWrite(Packet *pkt)
     }
     return num_functional_writes;
 }
+
+#ifdef WARPED
+warped::State*
+SimpleNetwork::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+SimpleNetwork::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+SimpleNetwork::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+SimpleNetwork::initialize() {
+  method_with_id(this->id);
+}
+
+void
+SimpleNetwork::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+SimpleNetwork::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

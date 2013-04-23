@@ -291,4 +291,40 @@ BasePrefetcher::samePage(Addr a, Addr b)
     return roundDown(a, TheISA::VMPageSize) == roundDown(b, TheISA::VMPageSize);
 }
 
+#ifdef WARPED
+warped::State* 
+BasePrefetcher::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
 
+void 
+BasePrefetcher::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+  
+  delete state;
+}
+    
+void
+BasePrefetcher::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+  
+  delete event;
+}
+  
+void
+BasePrefetcher::initialize() {
+  method_with_id(this->id);
+}
+    
+void 
+BasePrefetcher::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void 
+BasePrefetcher::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

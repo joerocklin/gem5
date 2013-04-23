@@ -35,6 +35,10 @@
 
 #include "mem/cache/prefetch/tagged.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 TaggedPrefetcher::TaggedPrefetcher(const Params *p)
     : BasePrefetcher(p)
 {
@@ -66,3 +70,41 @@ TaggedPrefetcherParams::create()
 {
    return new TaggedPrefetcher(this);
 }
+
+#ifdef WARPED
+warped::State* 
+TaggedPrefetcher::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void 
+TaggedPrefetcher::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+  
+  delete state;
+}
+    
+void
+TaggedPrefetcher::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+  
+  delete event;
+}
+  
+void
+TaggedPrefetcher::initialize() {
+  method_with_id(this->id);
+}
+    
+void 
+TaggedPrefetcher::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void 
+TaggedPrefetcher::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

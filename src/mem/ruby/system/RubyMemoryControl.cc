@@ -794,3 +794,41 @@ RubyMemoryControlParams::create()
 {
     return new RubyMemoryControl(this);
 }
+
+#ifdef WARPED
+warped::State*
+RubyMemoryControl::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+RubyMemoryControl::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+RubyMemoryControl::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+RubyMemoryControl::initialize() {
+  method_with_id(this->id);
+}
+
+void
+RubyMemoryControl::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+RubyMemoryControl::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

@@ -41,6 +41,10 @@
 #include "params/RubyWireBuffer.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 //////////////////////////////////////////////////////////////////////////////
 // This object was written to literally mimic a Wire in Ruby, in the sense
 // that there is no way for messages to get reordered en route on the WireBuffer.
@@ -97,6 +101,17 @@ class WireBuffer : public SimObject
 
     // queues where memory requests live
     std::vector<MessageBufferNode> m_message_queue;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
 
 };
 

@@ -41,6 +41,10 @@
 #include "params/NetworkLink_d.hh"
 #include "sim/clocked_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class GarnetNetwork_d;
 
 class NetworkLink_d : public ClockedObject, public Consumer
@@ -86,6 +90,18 @@ class NetworkLink_d : public ClockedObject, public Consumer
 
     double m_power_dyn;
     double m_power_sta;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 #endif // __MEM_RUBY_NETWORK_GARNET_FIXED_PIPELINE_NETWORK_LINK_D_HH__

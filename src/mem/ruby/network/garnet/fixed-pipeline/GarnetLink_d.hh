@@ -39,6 +39,10 @@
 #include "params/GarnetIntLink_d.hh"
 #include "params/GarnetExtLink_d.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class GarnetIntLink_d : public BasicLink
 {
   public:
@@ -54,6 +58,18 @@ class GarnetIntLink_d : public BasicLink
   protected:
     NetworkLink_d* m_network_links[2];
     CreditLink_d* m_credit_links[2];
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 inline std::ostream&
@@ -79,6 +95,18 @@ class GarnetExtLink_d : public BasicLink
   protected:
     NetworkLink_d* m_network_links[2];
     CreditLink_d* m_credit_links[2];
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 inline std::ostream&

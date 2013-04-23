@@ -49,6 +49,10 @@
 #include "params/RubyCache.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class CacheMemory : public SimObject
 {
   public:
@@ -168,6 +172,18 @@ class CacheMemory : public SimObject
     int m_cache_assoc;
     int m_start_index_bit;
     bool m_resource_stalls;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 std::ostream& operator<<(std::ostream& out, const CacheMemory& obj);

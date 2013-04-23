@@ -175,3 +175,41 @@ DMASequencerParams::create()
 {
     return new DMASequencer(this);
 }
+
+#ifdef WARPED
+warped::State*
+DMASequencer::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+DMASequencer::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+DMASequencer::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+DMASequencer::initialize() {
+  method_with_id(this->id);
+}
+
+void
+DMASequencer::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+DMASequencer::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

@@ -512,3 +512,41 @@ RubyPort::ruby_eviction_callback(const Address& address)
         }
     }
 }
+
+#ifdef WARPED
+warped::State*
+RubyPort::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+RubyPort::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+RubyPort::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+RubyPort::initialize() {
+  method_with_id(this->id);
+}
+
+void
+RubyPort::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+RubyPort::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

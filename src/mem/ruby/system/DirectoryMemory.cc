@@ -210,3 +210,41 @@ RubyDirectoryMemoryParams::create()
 {
     return new DirectoryMemory(this);
 }
+
+#ifdef WARPED
+warped::State*
+DirectoryMemory::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+DirectoryMemory::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+DirectoryMemory::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+DirectoryMemory::initialize() {
+  method_with_id(this->id);
+}
+
+void
+DirectoryMemory::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+DirectoryMemory::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

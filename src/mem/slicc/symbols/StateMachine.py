@@ -236,6 +236,11 @@ class $py_ident(RubyController):
 #include "mem/ruby/common/Global.hh"
 #include "mem/ruby/slicc_interface/AbstractController.hh"
 #include "params/$c_ident.hh"
+
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 ''')
 
         seen_types = set()
@@ -274,6 +279,17 @@ class $c_ident : public AbstractController
 
     bool functionalReadBuffers(PacketPtr&);
     uint32_t functionalWriteBuffers(PacketPtr&);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
 
 private:
 ''')
@@ -968,6 +984,47 @@ m_${{var.c_ident}}_ptr->setReceiver(this);
 
 ''')
             code('}')
+            
+        code('''
+#ifdef WARPED
+warped::State*
+$c_ident::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+$c_ident::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+$c_ident::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+$c_ident::initialize() {
+  method_with_id(this->id);
+}
+
+void
+$c_ident::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+$c_ident::finalize() {
+  method_with_id(this->id);
+}
+
+#endif
+
+''')
 
         code.write(path, "%s.cc" % c_ident)
 
@@ -1102,13 +1159,13 @@ ${ident}_Controller::doTransition(${ident}_Event event,
 {
 ''')
         if self.TBEType != None and self.EntryType != None:
-            code('${ident}_State state = getState(m_tbe_ptr, m_cache_entry_ptr, addr);')
+            code('${ident}_State state = get${ident}State(m_tbe_ptr, m_cache_entry_ptr, addr);')
         elif self.TBEType != None:
-            code('${ident}_State state = getState(m_tbe_ptr, addr);')
+            code('${ident}_State state = get${ident}State(m_tbe_ptr, addr);')
         elif self.EntryType != None:
-            code('${ident}_State state = getState(m_cache_entry_ptr, addr);')
+            code('${ident}_State state = get${ident}State(m_cache_entry_ptr, addr);')
         else:
-            code('${ident}_State state = getState(addr);')
+            code('${ident}_State state = get${ident}State(addr);')
 
         code('''
     ${ident}_State next_state = state;

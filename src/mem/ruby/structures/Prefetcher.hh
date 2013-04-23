@@ -42,6 +42,10 @@
 #include "params/Prefetcher.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 #define MAX_PF_INFLIGHT 8
 
 class PrefetchEntry
@@ -205,6 +209,18 @@ class Prefetcher : public SimObject
         Stats::Scalar numPagesCrossed;
         //! Count of misses incurred for blocks that were prefetched
         Stats::Scalar numMissedPrefetchedBlocks;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 #endif // PREFETCHER_H

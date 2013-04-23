@@ -51,6 +51,10 @@
 #include "mem/ruby/system/RubyPort.hh"
 #include "params/RubyPortProxy.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class RubyPortProxy : public RubyPort
 {
 
@@ -108,6 +112,17 @@ class RubyPortProxy : public RubyPort
      * functional accesses).
      */
     void descheduleDeadlockEvent() { }
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
 
 };
 

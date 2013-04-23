@@ -536,3 +536,41 @@ CacheMemory::checkResourceAvailable(CacheResourceType res, Address addr)
         return true;
     }
 }
+
+#ifdef WARPED
+warped::State*
+CacheMemory::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+CacheMemory::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+CacheMemory::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+CacheMemory::initialize() {
+  method_with_id(this->id);
+}
+
+void
+CacheMemory::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+CacheMemory::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

@@ -52,6 +52,10 @@
 #include "params/FaultModel.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class FaultModel : public SimObject
 {
   public:
@@ -136,6 +140,18 @@ class FaultModel : public SimObject
     std::vector <system_conf> configurations;
     std::vector <system_conf> routers;
     std::vector <int> temperature_weights;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 #endif //  __MEM_RUBY_NETWORK_FAULT_MODEL_HH__

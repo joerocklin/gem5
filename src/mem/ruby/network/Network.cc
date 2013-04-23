@@ -104,3 +104,41 @@ Network::getThrottles(NodeID id) const
 {
     return NULL;
 }
+
+#ifdef WARPED
+warped::State*
+Network::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+Network::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+Network::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+Network::initialize() {
+  method_with_id(this->id);
+}
+
+void
+Network::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+Network::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

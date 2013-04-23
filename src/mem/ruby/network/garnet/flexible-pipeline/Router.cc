@@ -462,3 +462,41 @@ GarnetRouterParams::create()
 {
     return new Router(this);
 }
+
+#ifdef WARPED
+warped::State*
+Router::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+Router::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+Router::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+Router::initialize() {
+  method_with_id(this->id);
+}
+
+void
+Router::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+Router::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

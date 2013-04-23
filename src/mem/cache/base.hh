@@ -72,6 +72,10 @@
 #include "sim/sim_exit.hh"
 #include "sim/system.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class MSHR;
 /**
  * A basic cache interface. Implements some common functions for speed.
@@ -582,6 +586,17 @@ class BaseCache : public MemObject
 
     }
 
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+  
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+  
 };
 
 #endif //__BASE_CACHE_HH__

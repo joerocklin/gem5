@@ -51,7 +51,7 @@ machine(DMA, "DMA Controller")
   MessageBuffer mandatoryQueue, ordered="false", no_vector="true";
   State cur_state, no_vector="true";
 
-  State getState(Address addr) {
+  State getDMAState(Address addr) {
     return cur_state;
   }
   void setState(Address addr, State state) {

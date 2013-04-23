@@ -175,3 +175,41 @@ NetworkLinkParams::create()
 {
     return new NetworkLink(this);
 }
+
+#ifdef WARPED
+warped::State*
+NetworkLink::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+NetworkLink::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+NetworkLink::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+NetworkLink::initialize() {
+  method_with_id(this->id);
+}
+
+void
+NetworkLink::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+NetworkLink::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

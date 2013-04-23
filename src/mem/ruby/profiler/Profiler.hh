@@ -66,6 +66,10 @@
 #include "params/RubyProfiler.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class RubyRequest;
 class AddressProfiler;
 
@@ -223,6 +227,18 @@ class Profiler : public SimObject
             Profiler *profiler;
     };
     ProfileEvent m_event;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 inline std::ostream&

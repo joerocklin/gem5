@@ -467,3 +467,41 @@ Prefetcher::print(std::ostream& out) const
             << m_array[i].m_use_time << std::endl;
     }
 }
+
+#ifdef WARPED
+warped::State*
+Prefetcher::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+Prefetcher::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+Prefetcher::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+Prefetcher::initialize() {
+  method_with_id(this->id);
+}
+
+void
+Prefetcher::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+Prefetcher::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

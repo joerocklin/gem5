@@ -119,7 +119,7 @@ machine(Directory, "Directory protocol")
     return dir_entry;
   }
  
-  State getState(TBE tbe, Address addr) {
+  State getDirectoryState(TBE tbe, Address addr) {
     if (is_valid(tbe)) {
       return tbe.TBEState;
     } else if (directory.isPresent(addr)) {

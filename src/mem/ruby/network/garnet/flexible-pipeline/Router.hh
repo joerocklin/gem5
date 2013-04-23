@@ -45,6 +45,10 @@
 #include "mem/ruby/network/garnet/NetworkHeader.hh"
 #include "params/GarnetRouter.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class VCarbiter;
 
 class Router : public BasicRouter, public FlexibleConsumer
@@ -104,6 +108,17 @@ class Router : public BasicRouter, public FlexibleConsumer
     void checkReschedule();
     void check_arbiter_reschedule();
     void scheduleOutputLinks();
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
 };
 
 #endif // __MEM_RUBY_NETWORK_GARNET_FLEXIBLE_PIPELINE_ROUTER_HH__

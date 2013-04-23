@@ -53,6 +53,10 @@
 #include "mem/tport.hh"
 #include "params/RubyPort.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class AbstractController;
 
 class RubyPort : public MemObject
@@ -185,6 +189,18 @@ class RubyPort : public MemObject
 
     bool waitingOnSequencer;
     bool access_phys_mem;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 #endif // __MEM_RUBY_SYSTEM_RUBYPORT_HH__

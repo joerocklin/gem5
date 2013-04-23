@@ -41,6 +41,10 @@
 #include "params/MemoryControl.hh"
 #include "sim/clocked_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 //////////////////////////////////////////////////////////////////////////////
 
 class MemoryControl : public ClockedObject, public Consumer
@@ -112,6 +116,18 @@ protected:
     };
 
     MemCntrlEvent m_event;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 #endif //   __MEM_RUBY_SYSTEM_ABSTRACT_MEMORY_CONTROL_HH__

@@ -185,3 +185,41 @@ BaseGarnetNetwork::printPerformanceStats(ostream& out) const
     out << "-------------" << endl;
     out << endl;
 }
+
+#ifdef WARPED
+warped::State*
+BaseGarnetNetwork::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+BaseGarnetNetwork::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+BaseGarnetNetwork::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+BaseGarnetNetwork::initialize() {
+  method_with_id(this->id);
+}
+
+void
+BaseGarnetNetwork::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+BaseGarnetNetwork::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

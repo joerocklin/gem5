@@ -40,6 +40,10 @@
 #include "params/RubyDirectoryMemory.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class DirectoryMemory : public SimObject
 {
   public:
@@ -91,6 +95,18 @@ class DirectoryMemory : public SimObject
     SparseMemory* m_sparseMemory;
     bool m_use_map;
     int m_map_levels;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 inline std::ostream&

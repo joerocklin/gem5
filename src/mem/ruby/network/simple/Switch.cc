@@ -256,3 +256,41 @@ SwitchParams::create()
 {
     return new Switch(this);
 }
+
+#ifdef WARPED
+warped::State*
+Switch::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+Switch::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+Switch::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+Switch::initialize() {
+  method_with_id(this->id);
+}
+
+void
+Switch::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+Switch::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

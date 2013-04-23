@@ -46,6 +46,10 @@
 #include "params/RubySystem.hh"
 #include "sim/clocked_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class Network;
 class Profiler;
 class MemoryControl;
@@ -162,6 +166,18 @@ class RubySystem : public ClockedObject
     bool m_cooldown_enabled;
     CacheRecorder* m_cache_recorder;
     std::vector<SparseMemory*> m_sparse_memory_vector;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 inline std::ostream&

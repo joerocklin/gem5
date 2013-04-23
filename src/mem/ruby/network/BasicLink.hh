@@ -41,6 +41,10 @@
 #include "mem/ruby/slicc_interface/AbstractController.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class BasicLink : public SimObject
 {
   public:
@@ -55,6 +59,18 @@ class BasicLink : public SimObject
     Cycles m_latency;
     int m_bandwidth_factor;
     int m_weight;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 inline std::ostream&
@@ -77,6 +93,18 @@ class BasicExtLink : public BasicLink
   protected:
     BasicRouter* m_int_node;
     AbstractController* m_ext_node;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 class BasicIntLink : public BasicLink
@@ -91,6 +119,18 @@ class BasicIntLink : public BasicLink
   protected:
     BasicRouter* m_node_a;
     BasicRouter* m_node_b;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 #endif // __MEM_RUBY_NETWORK_BASIC_LINK_HH__

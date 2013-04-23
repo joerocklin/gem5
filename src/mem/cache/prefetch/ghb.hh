@@ -39,6 +39,10 @@
 #include "mem/cache/prefetch/base.hh"
 #include "params/GHBPrefetcher.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class GHBPrefetcher : public BasePrefetcher
 {
   protected:
@@ -58,6 +62,18 @@ class GHBPrefetcher : public BasePrefetcher
 
     void calculatePrefetch(PacketPtr &pkt, std::list<Addr> &addresses,
                            std::list<Cycles> &delays);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+  
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 #endif // __MEM_CACHE_PREFETCH_GHB_PREFETCHER_HH__

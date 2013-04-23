@@ -123,7 +123,7 @@ machine(L1Cache, "MI Example L1 Cache")
     }
   }
 
-  State getState(TBE tbe, Entry cache_entry, Address addr) {
+  State getL1CacheState(TBE tbe, Entry cache_entry, Address addr) {
 
     if (is_valid(tbe)) {
       return tbe.TBEState;
@@ -186,7 +186,6 @@ machine(L1Cache, "MI Example L1 Cache")
       return ConvertMachToGenericMach(machineIDToMachineType(sender));
     }
   }
-
 
   // NETWORK PORTS
 

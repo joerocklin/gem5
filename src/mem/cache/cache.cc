@@ -61,3 +61,47 @@ template class Cache<LRU>;
 #endif
 
 #endif //DOXYGEN_SHOULD_SKIP_THIS
+
+#ifdef WARPED
+template <class TagStore> 
+warped::State* 
+Cache<TagStore>::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+template <class TagStore>
+void 
+Cache<TagStore>::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+  
+  delete state;
+}
+
+template <class TagStore>
+void
+Cache<TagStore>::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+  
+  delete event;
+}
+
+template <class TagStore>
+void
+Cache<TagStore>::initialize() {
+  method_with_id(this->id);
+}
+
+template <class TagStore>
+void 
+Cache<TagStore>::executeProcess()  {
+  method_with_id(this->id);
+}
+
+template <class TagStore>
+void 
+Cache<TagStore>::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

@@ -766,3 +766,41 @@ BaseCache::drain(DrainManager *dm)
     setDrainState(Drainable::Drained);
     return 0;
 }
+
+#ifdef WARPED
+warped::State* 
+BaseCache::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void 
+BaseCache::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+  
+  delete state;
+}
+    
+void
+BaseCache::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+  
+  delete event;
+}
+  
+void
+BaseCache::initialize() {
+  method_with_id(this->id);
+}
+    
+void 
+BaseCache::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void 
+BaseCache::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

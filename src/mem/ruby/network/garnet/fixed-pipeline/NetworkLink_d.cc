@@ -105,3 +105,41 @@ NetworkLink_d::functionalWrite(Packet *pkt)
 {
     return linkBuffer->functionalWrite(pkt);
 }
+
+#ifdef WARPED
+warped::State*
+NetworkLink_d::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+NetworkLink_d::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+NetworkLink_d::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+NetworkLink_d::initialize() {
+  method_with_id(this->id);
+}
+
+void
+NetworkLink_d::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+NetworkLink_d::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

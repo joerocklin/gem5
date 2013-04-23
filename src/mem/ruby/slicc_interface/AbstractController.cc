@@ -30,10 +30,6 @@
 #include "mem/ruby/system/Sequencer.hh"
 #include "mem/ruby/system/System.hh"
 
-#ifdef WARPED
-# include "sim/warped_sim_state.hh"
-#endif
-
 AbstractController::AbstractController(const Params *p)
     : ClockedObject(p), Consumer(this), m_fully_busy_cycles(0),
     m_request_count(0)
@@ -182,6 +178,39 @@ AbstractController::wakeUpAllBuffers()
 }
 
 #ifdef WARPED
-warped::State* 
-AbstractController::allocateState() { return new SimState(); }
+warped::State*
+AbstractController::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+AbstractController::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+AbstractController::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+AbstractController::initialize() {
+  method_with_id(this->id);
+}
+
+void
+AbstractController::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+AbstractController::finalize() {
+  method_with_id(this->id);
+}
+
 #endif

@@ -46,6 +46,10 @@
 #include "params/RubyMemoryControl.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 // This constant is part of the definition of tFAW; see
 // the comments in header to RubyMemoryControl.cc
 #define ACTIVATE_PER_TFAW 4
@@ -166,6 +170,18 @@ class RubyMemoryControl : public MemoryControl
     int m_idleCount;          // watchdog timer for shutting down
 
     MemCntrlProfiler* m_profiler_ptr;
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 std::ostream& operator<<(std::ostream& out, const RubyMemoryControl& obj);

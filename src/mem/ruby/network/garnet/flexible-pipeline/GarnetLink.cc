@@ -76,3 +76,77 @@ GarnetExtLinkParams::create()
 {
     return new GarnetExtLink(this);
 }
+
+#ifdef WARPED
+warped::State*
+GarnetIntLink::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+GarnetIntLink::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+GarnetIntLink::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+GarnetIntLink::initialize() {
+  method_with_id(this->id);
+}
+
+void
+GarnetIntLink::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+GarnetIntLink::finalize() {
+  method_with_id(this->id);
+}
+
+warped::State*
+GarnetExtLink::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+GarnetExtLink::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+GarnetExtLink::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+GarnetExtLink::initialize() {
+  method_with_id(this->id);
+}
+
+void
+GarnetExtLink::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+GarnetExtLink::finalize() {
+  method_with_id(this->id);
+}
+
+#endif
+

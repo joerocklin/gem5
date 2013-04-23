@@ -78,3 +78,112 @@ BasicIntLinkParams::create()
 {
     return new BasicIntLink(this);
 }
+
+#ifdef WARPED
+warped::State*
+BasicLink::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+BasicLink::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+BasicLink::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+BasicLink::initialize() {
+  method_with_id(this->id);
+}
+
+void
+BasicLink::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+BasicLink::finalize() {
+  method_with_id(this->id);
+}
+
+warped::State*
+BasicIntLink::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+BasicIntLink::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+BasicIntLink::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+BasicIntLink::initialize() {
+  method_with_id(this->id);
+}
+
+void
+BasicIntLink::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+BasicIntLink::finalize() {
+  method_with_id(this->id);
+}
+
+warped::State*
+BasicExtLink::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+BasicExtLink::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+BasicExtLink::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+BasicExtLink::initialize() {
+  method_with_id(this->id);
+}
+
+void
+BasicExtLink::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+BasicExtLink::finalize() {
+  method_with_id(this->id);
+}
+
+#endif
+
