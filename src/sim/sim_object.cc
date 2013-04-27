@@ -46,10 +46,12 @@
 # include <warped/SimulationManager.h>
 # include <warped/IntVTime.h>
 # include "sim/warped_sim_state.hh"
+
+using namespace warped;
+
 #endif
 
 using namespace std;
-using namespace warped;
 
 ////////////////////////////////////////////////////////////////////////
 //
