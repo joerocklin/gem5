@@ -738,3 +738,76 @@ LiveProcessParams::create()
 {
     return LiveProcess::create(this);
 }
+
+#ifdef WARPED
+warped::State*
+Process::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+Process::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+Process::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+Process::initialize() {
+  method_with_id(this->id);
+}
+
+void
+Process::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+Process::finalize() {
+  method_with_id(this->id);
+}
+
+warped::State*
+LiveProcess::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+LiveProcess::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+LiveProcess::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+LiveProcess::initialize() {
+  method_with_id(this->id);
+}
+
+void
+LiveProcess::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+LiveProcess::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

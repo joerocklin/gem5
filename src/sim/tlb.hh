@@ -48,6 +48,10 @@
 #include "sim/fault_fwd.hh"
 #include "sim/sim_object.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class ThreadContext;
 class BaseMasterPort;
 
@@ -124,6 +128,18 @@ class GenericTLB : public BaseTLB
     Fault translateAtomic(RequestPtr req, ThreadContext *tc, Mode mode);
     void translateTiming(RequestPtr req, ThreadContext *tc,
                          Translation *translation, Mode mode);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 #endif // __ARCH_SPARC_TLB_HH__

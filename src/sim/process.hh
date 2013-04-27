@@ -43,6 +43,10 @@
 #include "sim/sim_object.hh"
 #include "sim/syscallreturn.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class PageTable;
 struct ProcessParams;
 struct LiveProcessParams;
@@ -227,6 +231,18 @@ class Process : public SimObject
 
     void serialize(std::ostream &os);
     void unserialize(Checkpoint *cp, const std::string &section);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 //
@@ -326,6 +342,18 @@ class LiveProcess : public Process
     // we can't tell which subclass of LiveProcess to use until we
     // open and look at the object file.
     static LiveProcess *create(LiveProcessParams *params);
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
+
 };
 
 

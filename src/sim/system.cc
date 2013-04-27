@@ -462,3 +462,41 @@ SystemParams::create()
 {
     return new System(this);
 }
+
+#ifdef WARPED
+warped::State*
+System::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+System::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+System::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+System::initialize() {
+  method_with_id(this->id);
+}
+
+void
+System::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+System::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

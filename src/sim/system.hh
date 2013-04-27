@@ -62,6 +62,10 @@
 #include "mem/physical.hh"
 #include "params/System.hh"
 
+#ifdef WARPED
+# include "sim/warped_sim_state.hh"
+#endif
+
 class BaseCPU;
 class BaseRemoteGDB;
 class GDBListener;
@@ -469,6 +473,17 @@ class System : public MemObject
      */
     virtual void unserializeSymtab(Checkpoint *cp,
                                    const std::string &section) {}
+
+#ifdef WARPED
+  public:
+    warped::State* allocateState();
+    void deallocateState( const warped::State* state );
+    void reclaimEvent( const warped::Event* event );
+
+    void initialize();
+    void executeProcess();
+    void finalize();
+#endif
 
 };
 

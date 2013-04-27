@@ -63,3 +63,41 @@ GenericTLB::demapPage(Addr vaddr, uint64_t asn)
 {
     warn("Demapping pages in the generic TLB is unnecessary.\n");
 }
+
+#ifdef WARPED
+warped::State*
+GenericTLB::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+GenericTLB::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+GenericTLB::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+GenericTLB::initialize() {
+  method_with_id(this->id);
+}
+
+void
+GenericTLB::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+GenericTLB::finalize() {
+  method_with_id(this->id);
+}
+
+#endif

@@ -179,3 +179,41 @@ SimObject::find(const char *name)
 
     return NULL;
 }
+
+#ifdef WARPED
+warped::State*
+SimObject::allocateState() {
+  method_with_id(this->id);
+  return new SimState();
+}
+
+void
+SimObject::deallocateState( const warped::State* state ) {
+  method_with_id(this->id);
+
+  delete state;
+}
+
+void
+SimObject::reclaimEvent( const warped::Event* event ){
+  method_with_id(this->id);
+
+  delete event;
+}
+
+void
+SimObject::initialize() {
+  method_with_id(this->id);
+}
+
+void
+SimObject::executeProcess()  {
+  method_with_id(this->id);
+}
+
+void
+SimObject::finalize() {
+  method_with_id(this->id);
+}
+
+#endif
