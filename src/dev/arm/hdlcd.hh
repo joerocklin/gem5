@@ -260,7 +260,7 @@ class HDLcd: public AmbaDmaDevice
      * any trailing bytes must be handled with smaller lengths thus requiring
      * the configurable burst length option.
      */
-    class DmaDoneEvent : public Event
+    class DmaDoneEvent : public gem5::Event
     {
       private:
         /** Reference to HDLCD that issued the corresponding DMA transaction */

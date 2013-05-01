@@ -164,7 +164,7 @@ BaseCPU::BaseCPU(Params *p, bool is_checker)
     if (!p->simpoint_start_insts.empty()) {
         const char *cause = "simpoint starting point found";
         for (size_t i = 0; i < p->simpoint_start_insts.size(); ++i) {
-            Event *event = new SimLoopExitEvent(cause, 0);
+            gem5::Event *event = new SimLoopExitEvent(cause, 0);
             comInstEventQueue[0]->schedule(event, p->simpoint_start_insts[i]);
         }
     }
