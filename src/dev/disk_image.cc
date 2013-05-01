@@ -112,7 +112,8 @@ RawDiskImage::read(uint8_t *data, std::streampos offset) const
     if (!stream.is_open())
         panic("file not open!\n");
 
-    if (stream.seekg(offset * SectorSize, ios::beg) < 0)
+    stream.seekg(offset * SectorSize, ios::beg);
+    if (!stream.good())
         panic("Could not seek to location in file");
 
     streampos pos = stream.tellg();
@@ -136,7 +137,8 @@ RawDiskImage::write(const uint8_t *data, std::streampos offset)
     if (!stream.is_open())
         panic("file not open!\n");
 
-    if (stream.seekp(offset * SectorSize, ios::beg) < 0)
+    stream.seekp(offset * SectorSize, ios::beg);
+    if (!stream.good())
         panic("Could not seek to location in file");
 
     DPRINTF(DiskImageWrite, "write: offset=%d\n", (uint64_t)offset);

@@ -445,7 +445,7 @@ Pl111::readFramebuffer()
     // Updating base address, interrupt if we're supposed to
     lcdRis.baseaddr = 1;
     if (!intEvent.scheduled())
-        schedule(intEvent, nextCycle());
+        schedule(intEvent, clockEdge());
 
     curAddr = 0;
     startTime = curTick();
@@ -496,7 +496,7 @@ Pl111::dmaDone()
                  " have taken %d\n", curTick() - startTime, maxFrameTime);
             lcdRis.underflow = 1;
             if (!intEvent.scheduled())
-                schedule(intEvent, nextCycle());
+                schedule(intEvent, clockEdge());
         }
 
         assert(!readEvent.scheduled());
@@ -526,7 +526,7 @@ Pl111::dmaDone()
         return;
 
     if (!fillFifoEvent.scheduled())
-        schedule(fillFifoEvent, nextCycle());
+        schedule(fillFifoEvent, clockEdge());
 }
 
 void

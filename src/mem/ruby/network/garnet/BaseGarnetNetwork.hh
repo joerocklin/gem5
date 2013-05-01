@@ -84,7 +84,6 @@ class BaseGarnetNetwork : public Network
     virtual void checkNetworkAllocation(NodeID id, bool ordered,
         int network_num, std::string vnet_type) = 0;
 
-    Cycles getRubyStartTime();
     void clearStats();
     void printStats(std::ostream& out) const;
     void printPerformanceStats(std::ostream& out) const;
@@ -106,8 +105,6 @@ class BaseGarnetNetwork : public Network
 
     std::vector<std::vector<MessageBuffer*> > m_toNetQueues;
     std::vector<std::vector<MessageBuffer*> > m_fromNetQueues;
-
-    Cycles m_ruby_start;
 
 #ifdef WARPED
   public:
