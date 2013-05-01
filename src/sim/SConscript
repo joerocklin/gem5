@@ -51,6 +51,8 @@ Source('stat_control.cc')
 Source('syscall_emul.cc')
 
 if env['WARPED']:
+    Source('warped_gem5_main.cc')
+    Source('warped_application.cc')
     Source('warped_eventq.cc')
     Source('warped_sim_state.cc')
 else:

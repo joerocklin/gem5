@@ -55,6 +55,7 @@
 # include <warped/State.h>
 # include <warped/Event.h>
 # include "sim/warped_sim_state.hh"
+# include "sim/warped_utils.hh" 
 #endif
 
 class BaseCPU;
@@ -208,18 +209,6 @@ class SimObject :
     int id;
 #endif
 };
-
-#ifdef WARPED
-# ifdef DEBUG
-#  define print_method_string { std::cout << "-- " << __FILE__ << ":" << __LINE__ << " - " << __FUNCTION__; }
-#  define enter_method { print_method_string; std::cout << endl; }
-#  define method_with_id(id) { print_method_string; std::cout << " ID: " << id << std::endl; }
-# else
-#  define print_method_string 
-#  define enter_method
-#  define method_with_id(id)
-# endif
-#endif
 
 #ifdef DEBUG
 void debugObjectBreak(const char *objs);

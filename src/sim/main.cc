@@ -32,6 +32,11 @@
 
 #include "sim/init.hh"
 
+#ifdef WARPED
+# include "warped_gem5_main.hh"
+# include "warped_application.hh"
+#endif
+
 // main() is now pretty stripped down and just sets up python and then
 // calls initM5Python which loads the various embedded python modules
 // into the python environment and then starts things running by
@@ -53,10 +58,15 @@ main(int argc, char **argv)
     ret = initM5Python();
 
     if (ret == 0) {
+#ifdef WARPED
+        WarpedGem5Main wm( new WarpedApplication() );
+        ret = wm.main( argc, argv );
+#else
         // start m5
         ret = m5Main(argc, argv);
+#endif
     }
-
+    
     // clean up Python intepreter.
     Py_Finalize();
 

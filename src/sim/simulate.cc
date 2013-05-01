@@ -51,6 +51,8 @@ Tick lastExitTick = 0;
 SimLoopExitEvent *
 simulate(Tick num_cycles)
 {
+  std::cout << "----- Entering " << __FUNCTION__ << std::endl;
+  
     inform("Entering event queue @ %d.  Starting simulation...\n", curTick());
 
     if (num_cycles < MaxTick - curTick())

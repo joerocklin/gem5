@@ -274,9 +274,12 @@ m5Main(int argc, char **argv)
     PyObject *result;
     const char **command = m5MainCommands;
 
+    cout << "----- Starting Command Processing" << endl;
+
     // evaluate each command in the m5MainCommands array (basically a
     // bunch of python statements.
     while (*command) {
+      cout << "----- Running command " << *command << endl;
         result = PyRun_String(*command, Py_file_input, dict, dict);
         if (!result) {
             PyErr_Print();
@@ -286,6 +289,8 @@ m5Main(int argc, char **argv)
 
         command++;
     }
+    
+    cout << "----- Finished processing commands" << endl;
 
 #if HAVE_PROTOBUF
     google::protobuf::ShutdownProtobufLibrary();
