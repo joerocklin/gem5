@@ -7,9 +7,6 @@ cscope.out
 *~
 .*.swp
 m5out
-src/doxygen
 .hg
-.hgignore
-.hgtags
 *.o
 .AppleDouble
