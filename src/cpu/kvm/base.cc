@@ -48,6 +48,7 @@
 
 #include "arch/utility.hh"
 #include "cpu/kvm/base.hh"
+#include "debug/Checkpoint.hh"
 #include "debug/Kvm.hh"
 #include "debug/KvmIO.hh"
 #include "debug/KvmRun.hh"
@@ -174,6 +175,11 @@ BaseKvmCPU::regStats()
 
     BaseCPU::regStats();
 
+    numInsts
+        .name(name() + ".committedInsts")
+        .desc("Number of instructions committed")
+        ;
+
     numVMExits
         .name(name() + ".numVMExits")
         .desc("total number of KVM exits")
@@ -213,6 +219,11 @@ BaseKvmCPU::regStats()
 void
 BaseKvmCPU::serializeThread(std::ostream &os, ThreadID tid)
 {
+    if (DTRACE(Checkpoint)) {
+        DPRINTF(Checkpoint, "KVM: Serializing thread %i:\n", tid);
+        dump();
+    }
+
     // Update the thread context so we have something to serialize.
     syncThreadContext();
 
@@ -225,6 +236,8 @@ void
 BaseKvmCPU::unserializeThread(Checkpoint *cp, const std::string &section,
                               ThreadID tid)
 {
+    DPRINTF(Checkpoint, "KVM: Unserialize thread %i:\n", tid);
+
     assert(tid == 0);
     assert(_status == Idle);
     thread->unserialize(cp, section);
@@ -477,8 +490,10 @@ BaseKvmCPU::kvmRun(Tick ticks)
         hwCycles.stop();
 
 
-    uint64_t cyclesExecuted(hwCycles.read() - baseCycles);
-    Tick ticksExecuted(runTimer->ticksFromHostCycles(cyclesExecuted));
+    const uint64_t hostCyclesExecuted(hwCycles.read() - baseCycles);
+    const uint64_t simCyclesExecuted(hostCyclesExecuted * hostFactor);
+    const uint64_t instsExecuted(hwInstructions.read() - baseInstrs);
+    const Tick ticksExecuted(runTimer->ticksFromHostCycles(hostCyclesExecuted));
 
     if (ticksExecuted < ticks &&
         timerOverflowed &&
@@ -488,14 +503,13 @@ BaseKvmCPU::kvmRun(Tick ticks)
              ticks, ticksExecuted);
     }
 
-    numCycles += cyclesExecuted * hostFactor;
+    /* Update statistics */
+    numCycles += simCyclesExecuted;;
     ++numVMExits;
+    numInsts += instsExecuted;
 
     DPRINTF(KvmRun, "KVM: Executed %i instructions in %i cycles (%i ticks, sim cycles: %i).\n",
-            hwInstructions.read() - baseInstrs,
-            cyclesExecuted,
-            ticksExecuted,
-            cyclesExecuted * hostFactor);
+            instsExecuted, hostCyclesExecuted, ticksExecuted, simCyclesExecuted);
 
     return ticksExecuted + flushCoalescedMMIO();
 }
@@ -772,9 +786,7 @@ BaseKvmCPU::handleKvmExitFailEntry()
 Tick
 BaseKvmCPU::doMMIOAccess(Addr paddr, void *data, int size, bool write)
 {
-    mmio_req.setPhys(paddr, size,
-                     0, /* flags */
-                     dataMasterId());
+    mmio_req.setPhys(paddr, size, Request::UNCACHEABLE, dataMasterId());
 
     const MemCmd cmd(write ? MemCmd::WriteReq : MemCmd::ReadReq);
     Packet pkt(&mmio_req, cmd);
