@@ -1,3 +1,4 @@
+syntax: glob
 build
 parser.out
 parsetab.py
@@ -7,6 +8,4 @@ cscope.out
 *~
 .*.swp
 m5out
-.hg
-*.o
-.AppleDouble
+src/doxygen
