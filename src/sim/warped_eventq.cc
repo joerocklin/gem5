@@ -465,6 +465,28 @@ EventQueue::schedule(gem5::Event *event, Tick when)
     assert(!event->scheduled());
     assert(event->initialized());
 
+    /* -------------------------   Notes/Conjecture  --------------------------
+    In WARPED, messages are sent around which are acted upon. So, if we could
+    do the following we might have something that works:
+
+    Assume:
+      * tick --> advancement of GVT by 1 unit
+      * Each gem5 SimObject contains an event queue
+        (just verified this is the case, via EventManager->eventq)
+      * All gem5 SimObjects have unique names
+        (given there is a 'find' method which takes a name, this should be
+         a safe assumption)
+
+    Instead of just calling 'setWhen' to schedule the event, we need to send a
+    a message to the target object with the event serialized. Since Event has
+    serialization/deserialization methods, we should be able to use those.
+
+    When an event is to be scheduled on the event queue that generated the
+    event (that is 'this' in the C++ context), then there should be little
+    additional work involved.  However, when it is sending the event to another
+    object, there might be some pointer fixing that needs to happen, I don't
+    know yet.
+    */
     event->setWhen(when, this);
     insert(event);
     event->flags.set(gem5::Event::Scheduled);
@@ -473,7 +495,6 @@ EventQueue::schedule(gem5::Event *event, Tick when)
     }
     else {
         event->flags.clear(gem5::Event::IsMainQueue);
-        std::cout << "--- scheduling on other queue" << std::endl;
     }
 
     if (DTRACE(Event))
