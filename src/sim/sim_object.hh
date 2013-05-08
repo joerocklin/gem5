@@ -203,10 +203,6 @@ class SimObject :
     
     // this getName is for warped compatibility
     const std::string getName() const { return this->name(); };
-    const int getId() const { return this->id; }
-    
-  protected:
-    int id;
 #endif
 };
 

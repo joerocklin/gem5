@@ -74,6 +74,11 @@ SimObject::SimObject(const Params *p)
     doDebugBreak = false;
 #endif
 
+    cout << "--- Creating object " << this->name() << endl;
+
+#ifdef WARPED
+    this->initialize();
+#endif
     simObjectList.push_back(this);
 }
 

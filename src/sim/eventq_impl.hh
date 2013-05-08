@@ -37,6 +37,7 @@
 #include "base/trace.hh"
 #include "sim/eventq.hh"
 
+#ifndef WARPED
 inline void
 EventQueue::schedule(gem5::Event *event, Tick when)
 {
@@ -96,5 +97,11 @@ EventQueue::reschedule(gem5::Event *event, Tick when, bool always)
     if (DTRACE(Event))
         event->trace("rescheduled");
 }
+
+//=============================================================================
+#else // #ifndef WARPED
+
+#endif // #ifndef WARPED
+
 
 #endif // __SIM_EVENTQ_IMPL_HH__

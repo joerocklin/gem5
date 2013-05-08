@@ -205,6 +205,9 @@ EventQueue::serviceOne()
         // forward current cycle to the time when this event occurs.
         setCurTick(event->when());
 
+    cout << "------- Process event " << event->name() << " " << event->description() << endl;
+    event->dump();
+
         event->process();
         if (event->isExitEvent()) {
             assert(!event->flags.isSet(Event::AutoDelete) ||
@@ -435,3 +438,86 @@ Event::dump() const
 EventQueue::EventQueue(const string &n)
     : objName(n), head(NULL), _curTick(0)
 {}
+
+
+void
+Event::setWhen(Tick when, EventQueue *q) {
+    _when = when;
+#ifndef NDEBUG
+    queue = q;
+#endif
+#ifdef EVENTQ_DEBUG
+    whenScheduled = curTick();
+#endif
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// BIG GIANT TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+// Move these back into eventq_impl.hh when figured out
+// We'll take the hit of extra context switches to put these in a single CC
+// to speed up compiles.
+// TODO When you put them back MAKE THEM INLINE!!!!!
+///////////////////////////////////////////////////////////////////////////////
+void
+EventQueue::schedule(gem5::Event *event, Tick when)
+{
+    assert(when >= getCurTick());
+    assert(!event->scheduled());
+    assert(event->initialized());
+
+    event->setWhen(when, this);
+    insert(event);
+    event->flags.set(gem5::Event::Scheduled);
+    if (this == &mainEventQueue) {
+        event->flags.set(gem5::Event::IsMainQueue);
+    }
+    else {
+        event->flags.clear(gem5::Event::IsMainQueue);
+        std::cout << "--- scheduling on other queue" << std::endl;
+    }
+
+    if (DTRACE(Event))
+        event->trace("scheduled");
+}
+
+void
+EventQueue::deschedule(gem5::Event *event)
+{
+    assert(event->scheduled());
+    assert(event->initialized());
+
+    remove(event);
+
+    event->flags.clear(gem5::Event::Squashed);
+    event->flags.clear(gem5::Event::Scheduled);
+
+    if (DTRACE(Event))
+        event->trace("descheduled");
+
+    if (event->flags.isSet(gem5::Event::AutoDelete))
+        delete event;
+}
+
+void
+EventQueue::reschedule(gem5::Event *event, Tick when, bool always)
+{
+    assert(always || event->scheduled());
+    assert(event->initialized());
+
+    if (event->scheduled())
+        remove(event);
+
+    event->setWhen(when, this);
+    insert(event);
+    event->flags.clear(gem5::Event::Squashed);
+    event->flags.set(gem5::Event::Scheduled);
+    if (this == &mainEventQueue) {
+        event->flags.set(gem5::Event::IsMainQueue);
+        std::cout << "--- REREREscheduling on main event queue" << std::endl;
+    }
+    else
+        event->flags.clear(gem5::Event::IsMainQueue);
+
+    if (DTRACE(Event))
+        event->trace("rescheduled");
+}

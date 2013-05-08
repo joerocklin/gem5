@@ -55,6 +55,7 @@ if env['WARPED']:
     Source('warped_application.cc')
     Source('warped_eventq.cc')
     Source('warped_sim_state.cc')
+    Source('warped_message.cc')
 else:
     Source('eventq.cc')
 

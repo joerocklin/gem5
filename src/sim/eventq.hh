@@ -128,6 +128,7 @@ class Event : public gem5::Serializable
     Tick whenScheduled; //!< time scheduled
 #endif
 
+#ifndef WARPED
     void
     setWhen(Tick when, EventQueue *q)
     {
@@ -139,6 +140,9 @@ class Event : public gem5::Serializable
         whenScheduled = curTick();
 #endif
     }
+#else // ifndef WARPED
+    void setWhen(Tick when, EventQueue *q);
+#endif // ifnder WARPED
 
   protected:
     /// Accessor for flags.
