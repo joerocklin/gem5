@@ -50,6 +50,11 @@
 
 class EventQueue;       // forward declaration
 
+#ifdef WARPED
+class SimObject;
+#endif
+
+
 extern EventQueue mainEventQueue;
 
 /*
@@ -357,7 +362,7 @@ class EventQueue : public gem5::Serializable
   private:
     std::string objName;
     gem5::Event *head;
-    Tick _curTick;
+    Tick _curTick;    
 
     void insert(gem5::Event *event);
     void remove(gem5::Event *event);
@@ -423,6 +428,10 @@ class EventQueue : public gem5::Serializable
     virtual void serialize(std::ostream &os);
     virtual void unserialize(Checkpoint *cp, const std::string &section);
 #endif
+    
+#ifdef WARPED
+    SimObject *parentObject;
+#endif
 };
 
 void dumpMainQueue();
@@ -446,7 +455,11 @@ class EventManager
     }
 
     void
+#ifndef WARPED
     schedule(gem5::Event &event, Tick when)
+#else
+    gem5_schedule(gem5::Event &event, Tick when)
+#endif
     {
         eventq->schedule(&event, when);
     }
@@ -464,7 +477,12 @@ class EventManager
     }
 
     void
+#ifndef WARPED
     schedule(gem5::Event *event, Tick when)
+#else
+    gem5_schedule(gem5::Event *event, Tick when)
+#endif
+
     {
         eventq->schedule(event, when);
     }

@@ -227,20 +227,37 @@ MC146818::RTCEvent::RTCEvent(MC146818 * _parent, Tick i)
     : parent(_parent), interval(i)
 {
     DPRINTF(MC146818, "RTC Event Initilizing\n");
+
+#ifndef WARPED
     parent->schedule(this, curTick() + interval);
+#else
+    // TODO WARPED This bypasses the SimObject version of scheduling
+    parent->gem5_schedule(this, curTick() + interval);
+#endif
+    
 }
 
 void
 MC146818::RTCEvent::scheduleIntr()
 {
+#ifndef WARPED
     parent->schedule(this, curTick() + interval);
+#else
+    // TODO WARPED This bypasses the SimObject version of scheduling
+    parent->gem5_schedule(this, curTick() + interval);
+#endif
 }
 
 void
 MC146818::RTCEvent::process()
 {
     DPRINTF(MC146818, "RTC Timer Interrupt\n");
+#ifndef WARPED
     parent->schedule(this, curTick() + interval);
+#else
+    // TODO WARPED This bypasses the SimObject version of scheduling
+    parent->gem5_schedule(this, curTick() + interval);
+#endif
     parent->handleEvent();
 }
 
@@ -254,7 +271,12 @@ void
 MC146818::RTCTickEvent::process()
 {
     DPRINTF(MC146818, "RTC clock tick\n");
+#ifndef WARPED
     parent->schedule(this, curTick() + SimClock::Int::s);
+#else
+    // TODO WARPED This bypasses the SimObject version of scheduling
+    parent->gem5_schedule(this, curTick() + SimClock::Int::s);
+#endif
     parent->tickClock();
 }
 

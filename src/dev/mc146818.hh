@@ -70,7 +70,12 @@ class MC146818 : public EventManager
 
         RTCTickEvent(MC146818 * _parent) : parent(_parent)
         {
+#ifndef WARPED
             parent->schedule(this, curTick() + SimClock::Int::s);
+#else
+             // TODO WARPED This bypasses the SimObject version of scheduling
+            parent->gem5_schedule(this, curTick() + SimClock::Int::s);
+#endif
         }
 
         /** Event process to occur at interrupt*/

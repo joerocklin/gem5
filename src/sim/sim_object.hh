@@ -193,6 +193,9 @@ class SimObject :
     static SimObject *find(const char *name);
     
 #ifdef WARPED
+    void schedule(gem5::Event *event, Tick when);
+    void schedule(gem5::Event &event, Tick when);
+    
     virtual warped::State* allocateState();
     virtual void deallocateState( const warped::State* state );
     virtual void reclaimEvent( const warped::Event* event );

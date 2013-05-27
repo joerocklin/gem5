@@ -98,7 +98,12 @@ PacketQueue::schedSendEvent(Tick when)
     }
 
     if (!sendEvent.scheduled()) {
+#ifndef WARPED
         em.schedule(&sendEvent, when);
+#else
+        // TODO WARPED This bypasses the SimObject wrapper
+        em.gem5_schedule(&sendEvent, when);
+#endif
     } else if (sendEvent.when() > when) {
         em.reschedule(&sendEvent, when);
     }
@@ -180,7 +185,14 @@ PacketQueue::scheduleSend(Tick time)
         // if the sendTiming caused someone else to call our
         // recvTiming we could already have an event scheduled, check
         if (!sendEvent.scheduled())
+
+#ifndef WARPED
             em.schedule(&sendEvent, std::max(nextReady, curTick() + 1));
+#else
+            // TODO WARPED This bypasses the SimObject wrapper
+            em.gem5_schedule(&sendEvent, std::max(nextReady, curTick() + 1));
+#endif
+            
     } else {
         // no more to send, so if we're draining, we may be done
         if (drainManager && transmitList.empty() && !sendEvent.scheduled()) {

@@ -253,7 +253,12 @@ Intel8254Timer::Counter::unserialize(const string &base, Checkpoint *cp,
         parent->deschedule(event);
     paramIn(cp, section, base + ".event_tick", event_tick);
     if (event_tick)
+#ifndef WARPED
         parent->schedule(event, event_tick);
+#else
+        // TODO WARPED This bypasses the SimObject version of scheduling
+        parent->gem5_schedule(event, event_tick);
+#endif
 }
 
 Intel8254Timer::Counter::CounterEvent::CounterEvent(Counter* c_ptr)
@@ -286,8 +291,13 @@ Intel8254Timer::Counter::CounterEvent::setTo(int clocks)
         panic("Timer can't be set to go off instantly.\n");
     DPRINTF(Intel8254Timer, "Timer set to curTick() + %d\n",
             clocks * interval);
+#ifndef WARPED
     counter->parent->schedule(this, curTick() + clocks * interval);
-}
+#else
+    // TODO WARPED This bypasses the SimObject version of scheduling
+    counter->parent->gem5_schedule(this, curTick() + clocks * interval);
+#endif
+  }
 
 int
 Intel8254Timer::Counter::CounterEvent::clocksLeft()

@@ -5,6 +5,7 @@
 
 #include <warped/DefaultEvent.h>
 #include <warped/SerializedInstance.h>
+#include <warped/IntVTime.h>
 
 #include <iostream>
 using namespace std;

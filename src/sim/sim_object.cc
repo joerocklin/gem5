@@ -48,7 +48,7 @@
 # include "sim/warped_sim_state.hh"
 
 using namespace warped;
-
+class SimObjectImpl;
 #endif
 
 using namespace std;
@@ -78,6 +78,7 @@ SimObject::SimObject(const Params *p)
 
 #ifdef WARPED
     this->initialize();
+    this->eventq->parentObject = dynamic_cast<SimObject *>(this);
 #endif
     simObjectList.push_back(this);
 }
@@ -219,6 +220,18 @@ SimObject::executeProcess()  {
 void
 SimObject::finalize() {
   method_with_id(this->id);
+}
+
+// TODO TODO TODO TODO
+// These get called a lot - it might be worth inlining them.
+void SimObject::schedule(gem5::Event *event, Tick when) {
+  std::cout << __FILE__ << ":" << __LINE__ << " " << __FUNCTION__ << this->name() << std::endl;
+  gem5_schedule(event, when);
+}
+
+void SimObject::schedule(gem5::Event &event, Tick when) {
+  std::cout << __FILE__ << ":" << __LINE__ << " " << __FUNCTION__ << this->name() << std::endl;
+  gem5_schedule(&event, when);
 }
 
 #endif

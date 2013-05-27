@@ -458,6 +458,7 @@ Event::setWhen(Tick when, EventQueue *q) {
 // to speed up compiles.
 // TODO When you put them back MAKE THEM INLINE!!!!!
 ///////////////////////////////////////////////////////////////////////////////
+#include "warped_message.hh"
 void
 EventQueue::schedule(gem5::Event *event, Tick when)
 {
@@ -487,6 +488,13 @@ EventQueue::schedule(gem5::Event *event, Tick when)
     object, there might be some pointer fixing that needs to happen, I don't
     know yet.
     */
+    
+    //WarpedMessage* newMsg;
+    //IntVTime startTime = dynamic_cast<const IntVTime&> (warped::getSimulationTime());
+    //SimObject *obj = (SimObject*) this->parentObject;
+    
+    //cout << "this: " << this->parentObject->getName() << endl;
+    
     event->setWhen(when, this);
     insert(event);
     event->flags.set(gem5::Event::Scheduled);
